@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="card_border">5dip</dimen>
+    <dimen name="circle_radius">22dip</dimen>
+    <dimen name="circle_radius_pressed">20dip</dimen>
+    <dimen name="min_proximity_value">18dp</dimen>
+    <dimen name="max_proximity_value">24dp</dimen>
+    <dimen name="button_border_margin">10dip</dimen>
+</resources>

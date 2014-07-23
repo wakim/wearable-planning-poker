@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<br.com.planning.poker.wear.app.view.IconTextWearableListItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.wearable.view.CircledImageView
+        android:id="@+id/circled_image_view"
+        android:layout_height="52dp"
+        android:layout_width="52dp"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="icon"
+        android:layout_gravity="center_vertical"
+        android:alpha="0.5" />
+
+    <TextView
+        android:id="@+id/text_view"
+        style="@style/TextAppearance.Wearable.Small"
+        android:alpha="0.5"
+        android:fontFamily="sans-serif-condensed-light"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical" />
+
+</br.com.planning.poker.wear.app.view.IconTextWearableListItem>

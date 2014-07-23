@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragment_cards_gallery_tag">fragment_cards_gallery</string>
+    <string name="fragment_settings_tag">fragment_settings</string>
+    <string name="fragment_deckpicker_tag">fragment_deckpicker</string>
+</resources>

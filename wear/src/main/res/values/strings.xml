@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wearable Planning Poker</string>
+    <string name="hide">Hide</string>
+    <string name="show">Show</string>
+    <string name="more">More</string>
+    <string name="change_deck">Change Deck</string>
+    <string name="get_data">Get state from Phone</string>
+    <string name="send_data">Send state from Phone</string>
+</resources>

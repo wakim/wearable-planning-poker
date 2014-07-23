@@ -1,0 +1,229 @@
+package br.com.planning.poker.wear.app.fragment;
+
+import android.app.Fragment;
+import android.graphics.Point;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.wearable.view.CircledImageView;
+import android.support.wearable.view.GridViewPager;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.widget.TextView;
+
+import java.util.List;
+
+import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.app.adapter.CardsGridPagerAdapter;
+import br.com.planning.poker.wear.app.animation.TransitionAnimationBuilder;
+import br.com.planning.poker.wear.app.animation.TransitionAnimationWrapper;
+import br.com.planning.poker.wear.app.utils.DisplayHelper;
+
+/**
+ * Created by wakim on 19/07/14.
+ */
+public class CardsGalleryFragment extends Fragment implements View.OnClickListener {
+
+	CardsGridPagerAdapter mAdapter;
+	GridViewPager mGridViewPager;
+	TextView mHiddenCard;
+	CircledImageView mHideButton, mShowButton;
+
+	List<String> mCards;
+	TransitionAnimationWrapper mAnimationWrapper;
+
+	CardsGalleryCallback mCallback;
+
+	public CardsGalleryFragment() {}
+
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		final View view = inflater.inflate(R.layout.fragment_cards_gallery, null);
+
+		mGridViewPager = (GridViewPager) view.findViewById(R.id.fcg_grid_view_pager);
+		mHiddenCard = (TextView) view.findViewById(R.id.fcg_hidden_card);
+
+		mHideButton = (CircledImageView) view.findViewById(R.id.fcg_button_hide);
+		mShowButton = (CircledImageView) view.findViewById(R.id.fcg_button_show);
+
+		mHideButton.setOnClickListener(this);
+		mShowButton.setOnClickListener(this);
+
+		view.findViewById(R.id.fcg_button_more).setOnClickListener(this);
+
+		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			@Override
+			public void onGlobalLayout() {
+				setScaledSize();
+				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+			}
+		});
+
+		return view;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroyView();
+
+		mAdapter.onDestroy();
+
+		mAdapter = null;
+		mGridViewPager = null;
+		mCards = null;
+		mHideButton = null;
+		mShowButton = null;
+
+		mCallback = null;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+
+		tryInstantiateAdapter();
+	}
+
+	public void loadCards(List<String> cards, boolean animated) {
+
+		if(animated) {
+			mGridViewPager.setAlpha(0f);
+
+			loadCards(cards);
+
+			mGridViewPager.animate().alpha(1f).setDuration(300l).start();
+		} else {
+			loadCards(cards);
+		}
+	}
+
+	public void loadCards(List<String> cards) {
+
+		mCards = cards;
+
+		if(getActivity() == null) {
+			return;
+		}
+
+		tryInstantiateAdapter();
+	}
+
+	void tryInstantiateAdapter() {
+
+		if(mGridViewPager == null || mCards == null) {
+			return;
+		}
+
+		if(mAnimationWrapper != null && ! mAnimationWrapper.isPrimaryVisible()) {
+			showCard();
+		}
+
+		if(mAdapter != null) {
+			mAdapter.setCards(mCards);
+		} else {
+			mAdapter = new CardsGridPagerAdapter(getActivity(), mCards);
+			mGridViewPager.setAdapter(mAdapter);
+		}
+
+		mCards = null;
+	}
+
+	void setScaledSize() {
+		Point scaledSize = getScaledSize();
+
+		mAdapter.setSize(scaledSize);
+		mAdapter.notifyDataSetChanged();
+
+		setHiddenCardSize(scaledSize);
+
+		buildAnimationWrapper();
+	}
+
+	void setHiddenCardSize(Point size) {
+		ViewGroup.LayoutParams lp = mHiddenCard.getLayoutParams();
+
+		lp.width = size.x;
+		lp.height = size.y;
+
+		mHiddenCard.setMaxWidth(size.x);
+		mHiddenCard.setMaxHeight(size.y);
+
+		mHiddenCard.setLayoutParams(lp);
+	}
+
+	void buildAnimationWrapper() {
+
+		if(mAnimationWrapper != null) {
+			mAnimationWrapper.destroy();
+			mAnimationWrapper = null;
+		}
+
+		if(! mAdapter.hasSize()) {
+			return;
+		}
+
+		mAnimationWrapper = TransitionAnimationBuilder
+				.init()
+				.to(mGridViewPager, mHiddenCard)
+				.during(300)
+				.enableFill()
+				.fillingAfter()
+				.build(getActivity());
+	}
+
+	Point getScaledSize() {
+		Point windowSize = DisplayHelper.getWindowSize(getActivity());
+
+		if(mGridViewPager != null) {
+			windowSize = DisplayHelper.scaleWithAspectRatio(windowSize.x, windowSize.y, mGridViewPager.getWidth(), mGridViewPager.getHeight());
+		}
+
+		float fX = (float) windowSize.x, fY = (float) windowSize.y;
+
+		fX *= 0.7;
+		fY *= 0.85;
+
+		windowSize.x = (int) fX;
+		windowSize.y = (int) fY;
+
+		return windowSize;
+	}
+
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+
+		if(id == R.id.fcg_button_hide) {
+			hideCard();
+			mShowButton.setVisibility(View.VISIBLE);
+			mHideButton.setVisibility(View.INVISIBLE);
+		} else if(id == R.id.fcg_button_show) {
+			showCard();
+			mShowButton.setVisibility(View.INVISIBLE);
+			mHideButton.setVisibility(View.VISIBLE);
+		} else if(id == R.id.fcg_button_more) {
+			if(mCallback != null) {
+				mCallback.onMoreClicked();
+			}
+		}
+	}
+
+	void showCard() {
+		mAnimationWrapper.performShowAnimation(mGridViewPager, mHiddenCard);
+	}
+
+	void hideCard() {
+		mAnimationWrapper.performHideAnimation(mGridViewPager, mHiddenCard);
+	}
+
+	public void setCardsGalleryCallback(CardsGalleryCallback callback) {
+		mCallback = callback;
+	}
+
+	public static interface CardsGalleryCallback {
+		void onMoreClicked();
+	}
+}

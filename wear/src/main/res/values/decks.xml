@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="deck_default">deck_standard</string>
+
+    <string-array name="deck_list">
+        <item>deck_standard</item>
+        <item>deck_fibonacci</item>
+        <item>deck_hours</item>
+        <item>deck_sizes</item>
+        <item>deck_custom</item>
+    </string-array>
+
+    <string-array name="deck_description">
+        <item>Modified Fibonacci</item>
+        <item>Fibonacci</item>
+        <item>Hours</item>
+        <item>Sizes</item>
+        <item>Personal</item>
+    </string-array>
+
+    <string-array name="deck_standard">
+        <item>@string/card_int</item>
+        <item>@string/card_0</item>
+        <item>@string/card_1_2</item>
+        <item>@string/card_1</item>
+        <item>@string/card_2</item>
+        <item>@string/card_3</item>
+        <item>@string/card_5</item>
+        <item>@string/card_8</item>
+        <item>@string/card_13</item>
+        <item>@string/card_20</item>
+        <item>@string/card_40</item>
+        <item>@string/card_100</item>
+        <item>@string/card_infinity</item>
+    </string-array>
+
+    <string-array name="deck_fibonacci">
+        <item>@string/card_int</item>
+        <item>@string/card_0</item>
+        <item>@string/card_1</item>
+        <item>@string/card_2</item>
+        <item>@string/card_3</item>
+        <item>@string/card_5</item>
+        <item>@string/card_8</item>
+        <item>@string/card_13</item>
+        <item>@string/card_21</item>
+        <item>@string/card_34</item>
+        <item>@string/card_55</item>
+        <item>@string/card_89</item>
+        <item>@string/card_infinity</item>
+    </string-array>
+
+    <string-array name="deck_hours">
+        <item>@string/card_int</item>
+        <item>@string/card_0</item>
+        <item>@string/card_1_2</item>
+        <item>@string/card_1</item>
+        <item>@string/card_2</item>
+        <item>@string/card_4</item>
+        <item>@string/card_8</item>
+        <item>@string/card_12</item>
+        <item>@string/card_16</item>
+        <item>@string/card_infinity</item>
+    </string-array>
+
+    <string-array name="deck_sizes">
+        <item>@string/card_int</item>
+        <item>@string/card_pp</item>
+        <item>@string/card_p</item>
+        <item>@string/card_m</item>
+        <item>@string/card_g</item>
+        <item>@string/card_gg</item>
+        <item>@string/card_ggg</item>
+        <item>@string/card_gggg</item>
+        <item>@string/card_infinity</item>
+    </string-array>
+
+    <string-array name="deck_custom"></string-array>
+
+    <string-array name="cards">
+        <item>@string/card_infinity</item>
+        <item>@string/card_int</item>
+        <item>@string/card_0</item>
+        <item>@string/card_1_2</item>
+        <item>@string/card_1</item>
+        <item>@string/card_2</item>
+        <item>@string/card_3</item>
+        <item>@string/card_4</item>
+        <item>@string/card_5</item>
+        <item>@string/card_8</item>
+        <item>@string/card_12</item>
+        <item>@string/card_13</item>
+        <item>@string/card_16</item>
+        <item>@string/card_20</item>
+        <item>@string/card_21</item>
+        <item>@string/card_34</item>
+        <item>@string/card_40</item>
+        <item>@string/card_55</item>
+        <item>@string/card_89</item>
+        <item>@string/card_100</item>
+        <item>@string/card_pp</item>
+        <item>@string/card_p</item>
+        <item>@string/card_m</item>
+        <item>@string/card_g</item>
+        <item>@string/card_gg</item>
+        <item>@string/card_ggg</item>
+        <item>@string/card_gggg</item>
+    </string-array>
+
+    <string-array name="cards_value">
+        <item>@null</item>
+        <item>@null</item>
+        <item>0</item>
+        <item>0.5</item>
+        <item>1</item>
+        <item>>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>8</item>
+        <item>12</item>
+        <item>13</item>
+        <item>16</item>
+        <item>20</item>
+        <item>21</item>
+        <item>34</item>
+        <item>40</item>
+        <item>55</item>
+        <item>89</item>
+        <item>100</item>
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>13</item>
+        <item>20</item>
+        <item>34</item>
+        <item>40</item>
+    </string-array>
+
+    <string name="card_infinity">\u221E</string>
+    <string name="card_int">\u003F</string>
+    <string name="card_0">0</string>
+    <string name="card_1_2">\u00BD</string>
+    <string name="card_1">1</string>
+    <string name="card_2">2</string>
+    <string name="card_3">3</string>
+    <string name="card_4">4</string>
+    <string name="card_5">5</string>
+    <string name="card_8">8</string>
+    <string name="card_12">12</string>
+    <string name="card_13">13</string>
+    <string name="card_16">16</string>
+    <string name="card_20">20</string>
+    <string name="card_21">21</string>
+    <string name="card_34">34</string>
+    <string name="card_40">40</string>
+    <string name="card_55">55</string>
+    <string name="card_89">89</string>
+    <string name="card_100">100</string>
+    <string name="card_pp">XS</string>
+    <string name="card_p">S</string>
+    <string name="card_m">M</string>
+    <string name="card_g">L</string>
+    <string name="card_gg">XL</string>
+    <string name="card_ggg">XXL</string>
+    <string name="card_gggg">XXXL</string>
+    <string name="deck_name_description" formatted="false">%1$s;(%2$s)</string>
+    <string name="deck_name_description_empty" formatted="false">%1$s</string>
+</resources>

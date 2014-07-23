@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="background_color_key">background_color</string>
+    <string name="text_color_key">text_color</string>
+    <string name="deck_key">deck</string>
+</resources>

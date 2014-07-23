@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<br.com.planning.poker.wear.app.view.CustomWearableListItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.wearable.view.CircledImageView
+        android:id="@+id/circled_image_view"
+        android:layout_height="52dp"
+        android:layout_width="52dp"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="icon"
+        android:layout_gravity="center_vertical"
+        android:alpha="0.5" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/text_view1"
+            style="@style/TextAppearance.Wearable.Small"
+            android:textSize="14sp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="16dp"
+            android:fontFamily="sans-serif-condensed"
+            android:alpha="0.5"
+            android:text="Deck Name"/>
+
+        <TextView
+            android:id="@+id/text_view2"
+            style="@style/TextAppearance.Wearable.Small"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginRight="16dp"
+            android:alpha="0.5"
+            android:fontFamily="sans-serif-condensed-light"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:text="Card, Card, Card, Card, Card, Card, Card, Card, Card, Card" />
+    </LinearLayout>
+</br.com.planning.poker.wear.app.view.CustomWearableListItem>

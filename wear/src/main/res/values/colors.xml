@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="card_text">#ffffffff</color>
+    <color name="card_background">#ff0099cc</color>
+    <color name="card_background_pressed">#ff00729f</color>
+    <color name="card_border">@color/light_grey</color>
+    <color name="card_border_pressed">@color/grey</color>
+</resources>
