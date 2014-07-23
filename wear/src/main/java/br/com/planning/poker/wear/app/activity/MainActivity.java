@@ -9,6 +9,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Wearable;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import br.com.planning.poker.wear.app.fragment.DeckPickerFragment;
 import br.com.planning.poker.wear.app.fragment.SettingsFragment;
 import br.com.planning.poker.wear.app.nodes.WearManager;
 import br.com.planning.poker.wear.app.preferences.PreferencesManager;
+import br.com.planning.poker.wear.app.utils.Params;
 
 public class MainActivity extends Activity
 	implements CardsGalleryFragment.CardsGalleryCallback, SettingsFragment.SettingsCallback,
@@ -30,8 +32,8 @@ public class MainActivity extends Activity
 	GoogleApiClient mGoogleApiClient;
 	WearManager mWearManager;
 
-	private static final String SEND_DATA = "/send-data", GET_DATA = "/get-data",
-		GET_DATA_RESPONSE = "/get-data-response", SEND_DATA_RESPONSE = "/send-data-response";
+	private static final String GET_STATE = "/get-state", SET_STATE = "/set-state",
+		GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -119,11 +121,11 @@ public class MainActivity extends Activity
 	}
 
 	void sendData() {
-		sendMessage(SEND_DATA, obtainState());
+		sendMessage(SET_STATE, obtainState());
 	}
 
 	void getData() {
-		sendMessage(GET_DATA, null);
+		sendMessage(GET_STATE, null);
 		// TODO Show progress indicator
 	}
 
@@ -132,8 +134,16 @@ public class MainActivity extends Activity
 	}
 
 	public JSONObject obtainState() {
-		// TODO Gather state
-		return null;
+		CardsGalleryFragment gallery = getCardsGallery();
+		JSONObject json = new JSONObject();
+
+		try {
+			json.put(Params.DECK_NAME, PreferencesManager.getDeckSelectedValue(this));
+			json.put(Params.CURRENT_CARD, gallery.getSelectedCard());
+			json.put(Params.CARD_VISIBILITY, gallery.isCardVisible());
+		} catch(JSONException e){}
+
+		return json;
 	}
 
 	void showDeckPicker() {
@@ -185,9 +195,9 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onMessageReceived(String path, String nodeId, JSONObject json) {
-		if(SEND_DATA_RESPONSE.equals(path)) {
+		if(SET_STATE_RESPONSE.equals(path)) {
 			// TODO
-		} else if(GET_DATA_RESPONSE.equals(path)) {
+		} else if(GET_STATE_RESPONSE.equals(path)) {
 			// TODO
 		}
 	}

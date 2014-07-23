@@ -23,7 +23,7 @@ public class WearManager implements NodeApi.NodeListener, MessageApi.MessageList
 
 	WearMessageCallback mCallback;
 
-	boolean mErrorAlreadyHappend;
+	boolean mErrorAlreadyHappened;
 
 	public WearManager(GoogleApiClient googleApiClient) {
 		Wearable.NodeApi.getConnectedNodes(googleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
@@ -56,7 +56,7 @@ public class WearManager implements NodeApi.NodeListener, MessageApi.MessageList
 			throw new NodesNotFoundException();
 		}
 
-		mErrorAlreadyHappend = false;
+		mErrorAlreadyHappened = false;
 
 		for(String node : mNodes) {
 			Wearable.MessageApi.sendMessage(googleApiClient, node, path, data == null ? null : JSONObjectToByteArray(data))
@@ -70,11 +70,11 @@ public class WearManager implements NodeApi.NodeListener, MessageApi.MessageList
 	}
 
 	void notifyError(String path) {
-		if(mCallback != null && ! mErrorAlreadyHappend) {
+		if(mCallback != null && ! mErrorAlreadyHappened) {
 			mCallback.onMessageSendError(path);
 		}
 
-		mErrorAlreadyHappend = true;
+		mErrorAlreadyHappened = true;
 	}
 
 	@Override

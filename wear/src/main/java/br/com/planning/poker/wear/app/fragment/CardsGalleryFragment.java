@@ -223,6 +223,22 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 		mCallback = callback;
 	}
 
+	public Integer getSelectedCard() {
+		if(mGridViewPager != null) {
+			return mGridViewPager.getCurrentItem().x;
+		}
+
+		return null;
+	}
+
+	public boolean isCardVisible() {
+		if(mAnimationWrapper != null) {
+			return mAnimationWrapper.isPrimaryVisible();
+		}
+
+		return true;
+	}
+
 	public static interface CardsGalleryCallback {
 		void onMoreClicked();
 	}

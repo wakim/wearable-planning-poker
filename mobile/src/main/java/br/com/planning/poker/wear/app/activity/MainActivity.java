@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.service.SynchronizationService;
 
 

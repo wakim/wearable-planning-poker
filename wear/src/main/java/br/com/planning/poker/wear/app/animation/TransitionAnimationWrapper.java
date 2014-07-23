@@ -10,7 +10,7 @@ public abstract class TransitionAnimationWrapper {
 
 	protected Animation mShowAnimation, mHideAnimation;
 
-	boolean mPrimaryVisible;
+	boolean mPrimaryVisible = true;
 
 	public void performShowAnimation(View primaryView, View secondaryView) {
 		mPrimaryVisible = true;
