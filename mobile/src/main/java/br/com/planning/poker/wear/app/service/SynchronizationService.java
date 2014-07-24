@@ -112,7 +112,7 @@ public class SynchronizationService extends WearableListenerService implements G
 		bundle.putString(Params.METHOD, path);
 		bundle.putString(Params.REMOTE_SERVICE_PACKAGE, getPackageName());
 		bundle.putString(Params.REMOTE_SERVICE_CLASS, getClass().getPackage().getName().concat(".").concat(getClass().getSimpleName()));
-		bundle.putString(Params.CUSTOM_PARAM, messageEvent.getSourceNodeId());
+		bundle.putString(Params.CUSTOM_PARAM, messageEvent.getSourceNodeId()); // Source from this message
 
 		if(! startAgilePlanningPokerActivity(bundle)) {
 			// TODO Error Handling to Wearable
@@ -123,23 +123,56 @@ public class SynchronizationService extends WearableListenerService implements G
 		JSONObject json = new JSONObject();
 
 		try {
-			json.put(Params.CARD_VISIBILITY, data.getBoolean(Params.CARD_VISIBILITY));
-			json.put(Params.DECK_NAME, data.getString(Params.DECK_NAME));
-			json.put(Params.CURRENT_CARD, data.getInt(Params.CURRENT_CARD));
-			json.put(Params.BACKGROUND_COLOR, data.getInt(Params.BACKGROUND_COLOR));
-			json.put(Params.TEXT_COLOR, data.getInt(Params.TEXT_COLOR));
+			if(data.containsKey(Params.CARD_VISIBILITY)) {
+				json.put(Params.CARD_VISIBILITY, data.getBoolean(Params.CARD_VISIBILITY));
+			}
 
-		} catch(JSONException e){}
+			if(data.containsKey(Params.DECK_NAME)) {
+				json.put(Params.DECK_NAME, data.getString(Params.DECK_NAME));
+			}
+
+			if(data.containsKey(Params.CURRENT_CARD)) {
+				json.put(Params.CURRENT_CARD, data.getInt(Params.CURRENT_CARD));
+			}
+
+			if(data.containsKey(Params.BACKGROUND_COLOR)) {
+				json.put(Params.BACKGROUND_COLOR, data.getInt(Params.BACKGROUND_COLOR));
+			}
+
+			if(data.containsKey(Params.TEXT_COLOR)) {
+				json.put(Params.TEXT_COLOR, data.getInt(Params.TEXT_COLOR));
+			}
+
+			json.put(Params.TIMESTAMP, data.getLong(Params.TIMESTAMP));
+		} catch(JSONException e){
+			Log.i(Application.TAG, e.getLocalizedMessage() + "\n" + e.getMessage());
+		}
 
 		return json;
 	}
 
-	void populateBundle(Bundle data, JSONObject json) {
+	Bundle populateBundle(Bundle data, JSONObject json) {
 		try {
-			data.putBoolean(Params.CARD_VISIBILITY, json.getBoolean(Params.CARD_VISIBILITY));
-			data.putInt(Params.CURRENT_CARD, json.getInt(Params.CURRENT_CARD));
-			data.putString(Params.DECK_NAME, json.getString(Params.DECK_NAME));
-		} catch(JSONException e){}
+
+			if(json.has(Params.CARD_VISIBILITY)) {
+				data.putBoolean(Params.CARD_VISIBILITY, json.getBoolean(Params.CARD_VISIBILITY));
+			}
+
+			if(json.has(Params.CURRENT_CARD)) {
+				data.putInt(Params.CURRENT_CARD, json.getInt(Params.CURRENT_CARD));
+			}
+
+			if(json.has(Params.DECK_NAME)) {
+				data.putString(Params.DECK_NAME, json.getString(Params.DECK_NAME));
+			}
+
+			// Mandatory
+			data.putLong(Params.TIMESTAMP, json.getLong(Params.TIMESTAMP));
+		} catch(JSONException e){
+			Log.i(Application.TAG, e.getLocalizedMessage() + "\n" + e.getMessage());
+		}
+
+		return data;
 	}
 
 	JSONObject byteArrayToJSONObject(byte[] data) {

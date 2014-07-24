@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 import br.com.planning.poker.wear.app.view.CustomWearableListItem;
 
@@ -17,12 +17,15 @@ import br.com.planning.poker.wear.app.view.CustomWearableListItem;
 public class DeckAdapter extends RecyclerView.Adapter {
 
 	String[] mDecks;
+
 	int mCheckedDeckIndex;
+
 	LayoutInflater mInflater;
 
 	public DeckAdapter(Context context) {
 		mDecks = PreferencesManager.getDeckEntries(context);
 		mCheckedDeckIndex = PreferencesManager.getDeckSelectedValueIndex(context);
+
 		mInflater = LayoutInflater.from(context);
 	}
 
@@ -44,6 +47,7 @@ public class DeckAdapter extends RecyclerView.Adapter {
 	public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 		String[] split = mDecks[position].split(";");
 		ViewHolder v = (ViewHolder) viewHolder;
+
 		int iconResId = (mCheckedDeckIndex == position) ? R.drawable.ic_check_box_outline : R.drawable.ic_check_box_outline_blank;
 
 		CustomWearableListItem item = v.getItem();

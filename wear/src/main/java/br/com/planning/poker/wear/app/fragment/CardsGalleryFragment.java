@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.adapter.CardsGridPagerAdapter;
 import br.com.planning.poker.wear.app.animation.TransitionAnimationBuilder;
 import br.com.planning.poker.wear.app.animation.TransitionAnimationWrapper;
@@ -197,17 +197,27 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 		int id = v.getId();
 
 		if(id == R.id.fcg_button_hide) {
-			hideCard();
-			mShowButton.setVisibility(View.VISIBLE);
-			mHideButton.setVisibility(View.INVISIBLE);
+			handleCardVisibilityChange(false);
 		} else if(id == R.id.fcg_button_show) {
-			showCard();
-			mShowButton.setVisibility(View.INVISIBLE);
-			mHideButton.setVisibility(View.VISIBLE);
+			handleCardVisibilityChange(true);
 		} else if(id == R.id.fcg_button_more) {
 			if(mCallback != null) {
 				mCallback.onMoreClicked();
 			}
+		}
+	}
+
+	void handleCardVisibilityChange(boolean show) {
+		if(show) {
+			showCard();
+
+			mShowButton.setVisibility(View.INVISIBLE);
+			mHideButton.setVisibility(View.VISIBLE);
+		} else {
+			hideCard();
+
+			mShowButton.setVisibility(View.VISIBLE);
+			mHideButton.setVisibility(View.INVISIBLE);
 		}
 	}
 
@@ -237,6 +247,28 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 		}
 
 		return true;
+	}
+
+	public void setCurrentCard(Integer selectedCard) {
+		if(mGridViewPager != null) {
+			mGridViewPager.setCurrentItem(1, selectedCard, true);
+		}
+	}
+
+	public void setCardBackgroundColor(int backgroundColor, boolean notify) {
+		mAdapter.setCardBackgroundColor(backgroundColor, notify);
+	}
+
+	public void setCardTextColor(int textColor, boolean notify) {
+		mAdapter.setCardTextColor(textColor, notify);
+	}
+
+	public void changeCardVisibility(boolean visibility) {
+		if(visibility == mAnimationWrapper.isPrimaryVisible()) {
+			return;
+		}
+
+		handleCardVisibilityChange(visibility);
 	}
 
 	public static interface CardsGalleryCallback {

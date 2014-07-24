@@ -9,10 +9,18 @@ public class Application extends android.app.Application {
 
 	public static final String TAG = "br.com.planning.poker.wear";
 
+	private static Application sInstance;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
+		sInstance = this;
+
 		SharedPreferencesWrapper.setContext(this);
+	}
+
+	public static Application getInstance() {
+		return sInstance;
 	}
 }

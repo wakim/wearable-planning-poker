@@ -3,7 +3,6 @@ package br.com.planning.poker.wear.app.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
-import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -12,11 +11,9 @@ import com.google.android.gms.wearable.Wearable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import br.com.planning.poker.wear.app.R;
-import br.com.planning.poker.wear.app.application.Application;
+import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.fragment.CardsGalleryFragment;
 import br.com.planning.poker.wear.app.fragment.DeckPickerFragment;
 import br.com.planning.poker.wear.app.fragment.SettingsFragment;
@@ -31,6 +28,8 @@ public class MainActivity extends Activity
 
 	GoogleApiClient mGoogleApiClient;
 	WearManager mWearManager;
+
+	boolean mPendingSynchronization = false;
 
 	private static final String GET_STATE = "/get-state", SET_STATE = "/set-state",
 		GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response";
@@ -50,6 +49,7 @@ public class MainActivity extends Activity
 			}
 		});
 
+		// Build client and connect to Google Play Services using Wearable.API
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addApi(Wearable.API)
 				.addConnectionCallbacks(this)
@@ -77,11 +77,16 @@ public class MainActivity extends Activity
 		return (CardsGalleryFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_cards_gallery_tag));
 	}
 
+	SettingsFragment getSettings() {
+		return (SettingsFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_settings_tag));
+	}
+
 	@Override
 	public void onMoreClicked() {
 		SettingsFragment sf = new SettingsFragment();
 
 		sf.setSettingsCallback(this);
+		sf.setPendingSynchronization(mPendingSynchronization);
 		sf.show(getFragmentManager(), getString(R.string.fragment_settings_tag));
 	}
 
@@ -97,7 +102,7 @@ public class MainActivity extends Activity
 
 	List<String> loadDeck(String deckName) {
 		if("deck_custom".equals(deckName)) {
-			return new ArrayList<String>();
+			return PreferencesManager.getCustomDeckAsArrayList(this);
 		} else {
 			return PreferencesManager.getDeckByNameAsArrayList(this, deckName);
 		}
@@ -109,10 +114,10 @@ public class MainActivity extends Activity
 
 		switch(resId) {
 			case R.string.get_data:
-				getData();
+				getDataFromWearable();
 			break;
 			case R.string.send_data:
-				sendData();
+				sendDataToWearable();
 			break;
 			case R.string.change_deck:
 				showDeckPicker();
@@ -120,20 +125,22 @@ public class MainActivity extends Activity
 		}
 	}
 
-	void sendData() {
-		sendMessage(SET_STATE, obtainState());
+	void sendDataToWearable() {
+		sendMessageToWearable(SET_STATE, obtainCurrentState());
 	}
 
-	void getData() {
-		sendMessage(GET_STATE, null);
-		// TODO Show progress indicator
+	void getDataFromWearable() {
+		sendMessageToWearable(GET_STATE, null);
 	}
 
-	public void sendMessage(String path, JSONObject data) {
+	public void sendMessageToWearable(String path, JSONObject data) {
+		mPendingSynchronization = true;
 		mWearManager.broadcastMessage(mGoogleApiClient, path, data);
+
+		updatePendingSynchronizationState();
 	}
 
-	public JSONObject obtainState() {
+	public JSONObject obtainCurrentState() {
 		CardsGalleryFragment gallery = getCardsGallery();
 		JSONObject json = new JSONObject();
 
@@ -180,6 +187,7 @@ public class MainActivity extends Activity
 		mWearManager = new WearManager(mGoogleApiClient);
 		mWearManager.setWearMessageCallback(this);
 
+		// Add one listener for Node Connection and Disconnection
 		Wearable.NodeApi.addListener(mGoogleApiClient, mWearManager);
 		Wearable.MessageApi.addListener(mGoogleApiClient, mWearManager);
 	}
@@ -190,20 +198,82 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
-		Log.i(Application.TAG, "Connection Failed!");
 	}
 
 	@Override
 	public void onMessageReceived(String path, String nodeId, JSONObject json) {
+		mPendingSynchronization = false;
+
 		if(SET_STATE_RESPONSE.equals(path)) {
 			// TODO
 		} else if(GET_STATE_RESPONSE.equals(path)) {
-			// TODO
+			try {
+				applyState(json);
+			} catch(JSONException e) {}
 		}
+
+		updatePendingSynchronizationState();
 	}
 
 	@Override
 	public void onMessageSendError(String path) {
 		// TODO
+	}
+
+	void updatePendingSynchronizationState() {
+		SettingsFragment sf = getSettings();
+
+		if(sf != null && sf.isVisible()) {
+			sf.setPendingSynchronization(mPendingSynchronization);
+		}
+	}
+
+	void applyState(JSONObject json) throws JSONException {
+		String deckName = json.getString(Params.DECK_NAME);
+
+		String customDeck = json.getString(Params.CUSTOM_DECK);
+
+		// Avoid primitive problems (when an primitive value is not present, the default is returned =/)
+		Integer backgroundColor = json.has(Params.BACKGROUND_COLOR) ? json.getInt(Params.BACKGROUND_COLOR) : null;
+		Integer textColor = json.has(Params.TEXT_COLOR) ? json.getInt(Params.TEXT_COLOR) : null;
+		Boolean visibility = json.has(Params.CARD_VISIBILITY) ? json.getBoolean(Params.CARD_VISIBILITY) : null;
+		Integer selectedCard = json.has(Params.CURRENT_CARD) ? json.getInt(Params.CURRENT_CARD) : null;
+
+		CardsGalleryFragment gallery = getCardsGallery();
+
+		// Persist the deck on SharedPreferences
+		PreferencesManager.setDeck(deckName, this);
+
+		// Update Custom Deck on SharedPreferences
+		if(customDeck != null) {
+			PreferencesManager.setCustomDeck(this, customDeck);
+		}
+
+		// Change Deck on Fragment
+		loadDeck(deckName);
+
+		// Change the Background Color and persist
+		if(backgroundColor != null) {
+			PreferencesManager.setCardBackgroundColor(this, backgroundColor);
+			gallery.setCardBackgroundColor(backgroundColor, false);
+		}
+
+		// Change the Text Color and persist
+		if(textColor != null) {
+			PreferencesManager.setCardTextColor(this, textColor);
+			gallery.setCardTextColor(textColor, false);
+		}
+
+		// Change the selected card
+		if(selectedCard != null) {
+			gallery.setCurrentCard(selectedCard);
+		}
+
+		// Change card visibility
+		if(visibility != null) {
+			gallery.changeCardVisibility(visibility);
+		}
+
+		// TODO Notify user
 	}
 }

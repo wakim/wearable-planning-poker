@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.view.IconTextWearableListItem;
 
 /**

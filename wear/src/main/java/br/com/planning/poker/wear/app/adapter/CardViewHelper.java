@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 
 /**
  * Created by Wakim on 12/03/14.

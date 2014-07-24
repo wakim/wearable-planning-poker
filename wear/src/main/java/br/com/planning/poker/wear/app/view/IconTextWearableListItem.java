@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 
 /**
  * Created by wakim on 21/07/14.

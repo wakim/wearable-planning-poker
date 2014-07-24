@@ -3,4 +3,5 @@
     <string name="background_color_key">background_color</string>
     <string name="text_color_key">text_color</string>
     <string name="deck_key">deck</string>
+    <string name="custom_deck_key">deck</string>
 </resources>

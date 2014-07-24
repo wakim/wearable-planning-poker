@@ -11,7 +11,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
+import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 
 /**
  * Created by wakim on 19/07/14.
@@ -22,8 +23,11 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 	CardViewHelper mHelper;
 
 	public CardsGridPagerAdapter(Context context, List<String> cards, Point size) {
+		int backgroundColor = PreferencesManager.getCardBackgroundColor(context),
+			textColor = PreferencesManager.getCardTextColor(context);
+
 		mCards = cards;
-		mHelper = new CardViewHelper(size == null ? 0 : size.x, size == null ? 0 : size.y, context.getResources().getColor(R.color.card_background), context.getResources().getColor(R.color.card_text));
+		mHelper = new CardViewHelper(size == null ? 0 : size.x, size == null ? 0 : size.y, backgroundColor, textColor);
 		mHelper.setLayoutInflater(LayoutInflater.from(context));
 	}
 
@@ -86,5 +90,21 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 		mCards = null;
 		mHelper.destroy();
 		mHelper = null;
+	}
+
+	public void setCardBackgroundColor(int backgroundColor, boolean notify) {
+		mHelper.setBackgroundColor(backgroundColor);
+
+		if(notify) {
+			notifyDataSetChanged();
+		}
+	}
+
+	public void setCardTextColor(int textColor, boolean notify) {
+		mHelper.setTextColor(textColor);
+
+		if(notify) {
+			notifyDataSetChanged();
+		}
 	}
 }

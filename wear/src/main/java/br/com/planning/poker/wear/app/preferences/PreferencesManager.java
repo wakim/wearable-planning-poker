@@ -6,7 +6,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import br.com.planning.poker.wear.app.R;
+import br.com.planning.poker.wear.R;
 
 public class PreferencesManager {
 	private static final Class<?> array = R.array.class;
@@ -123,6 +123,7 @@ public class PreferencesManager {
 	
 	public static int getDeckPositionByName(Context context, String deck) {
 		int i = 0;
+
 		for(String deckName : getDeckEntryValues(context)) {
 			if(deckName.equals(deck)) {
 				return i;
@@ -134,9 +135,10 @@ public class PreferencesManager {
 	}
 
 	public static String[] getDeckEntries(Context context) {
+		boolean hasCustomDeck = hasCustomDeck(context);
 		String[] deckValues = getDeckEntryValues(context);
 		String[] deckNames = getDeckNames(context);
-		String[] deckEntries = new String[deckNames.length];
+		String[] deckEntries = new String[hasCustomDeck ? deckNames.length : deckNames.length - 1];
 		
 		String deckDescription = null;
 		
@@ -144,6 +146,10 @@ public class PreferencesManager {
 
 		for(String s : deckValues) {
 			String[] cards = getDeckByNameAsArray(context, s);
+
+			if(! hasCustomDeck && "custom_deck".equals(s)) {
+				continue;
+			}
 
 			if(cards.length > 0) {
 				deckDescription = Arrays.toString(cards).replaceAll("\\[|\\]", "");
@@ -198,7 +204,43 @@ public class PreferencesManager {
 		return SharedPreferencesWrapper.getInt(context.getString(R.string.background_color_key), context.getResources().getColor(R.color.card_background));
 	}
 
+	public static void setCardBackgroundColor(Context context, int color) {
+		SharedPreferencesWrapper.getEditor().putInt(context.getString(R.string.background_color_key), color).commit();
+	}
+
 	public static int getCardTextColor(Context context) {
 		return SharedPreferencesWrapper.getInt(context.getString(R.string.text_color_key), context.getResources().getColor(R.color.card_text));
+	}
+
+	public static void setCardTextColor(Context context, int color) {
+		SharedPreferencesWrapper.getEditor().putInt(context.getString(R.string.text_color_key), color).commit();
+	}
+
+	public static void setCustomDeck(Context context, String deckRepresentation) {
+		SharedPreferencesWrapper.getEditor().putString(context.getString(R.string.custom_deck_key), deckRepresentation).commit();
+	}
+
+	public static boolean hasCustomDeck(Context context) {
+		return SharedPreferencesWrapper.contains(context.getString(R.string.custom_deck_key));
+	}
+
+	public static String getCustomDeck(Context context) {
+		return SharedPreferencesWrapper.getString(context.getString(R.string.custom_deck_key));
+	}
+
+	public static ArrayList<String> getCustomDeckAsArrayList(Context context) {
+		String customDeck = getCustomDeck(context);
+
+		if(customDeck == null) {
+			return null;
+		}
+
+		ArrayList<String> cards = new ArrayList<String>();
+
+		for(String card : customDeck.split(",")) {
+			cards.add(card);
+		}
+
+		return cards;
 	}
 }

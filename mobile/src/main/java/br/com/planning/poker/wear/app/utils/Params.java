@@ -14,5 +14,6 @@ public abstract class Params {
 							   METHOD = "METHOD",
 							   REMOTE_SERVICE_PACKAGE = "REMOTE_SERVICE_PACKAGE",
 							   REMOTE_SERVICE_CLASS = "REMOTE_SERVICE_CLASS",
-							   CUSTOM_PARAM = "CUSTOM_PARAM";
+							   CUSTOM_PARAM = "CUSTOM_PARAM",
+							   TIMESTAMP = "TIMESTAMP";
 }

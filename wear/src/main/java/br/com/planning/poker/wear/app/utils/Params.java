@@ -8,5 +8,8 @@ public abstract class Params {
 	public static final String DECK_NAME = "DECK_NAME",
 							   CURRENT_CARD = "CURRENT_CARD",
 							   CARD_VISIBILITY = "CARD_VISIBILITY",
-							   CUSTOM_DECK = "CUSTOM_DECK";
+							   CUSTOM_DECK = "CUSTOM_DECK",
+							   BACKGROUND_COLOR = "BACKGROUND_COLOR",
+							   TEXT_COLOR = "TEXT_COLOR",
+							   TIMESTAMP = "TIMESTAMP";
 }
