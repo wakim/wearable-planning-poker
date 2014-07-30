@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Wearable Planning Poker</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+
+    <string name="app_not_found_title">Information</string>
+    <string name="app_not_found_text_1">Agile Planning Poker not found.\n\nTo synchronize state between wearable and handheld, you must install the <b>Agile Planning Poker</b> app from Market.</string>
+    <string name="app_not_found_text_2">Click here to install the app.</string>
+
+    <string name="app_found_title">Start Agile Planning Poker</string>
+    <string name="app_found_text_1">Click to start <b>Agile Planning Poker</b> app.</string>
+
+    <string name="description_title">Instructions</string>
+    <string name="description_text_1">Synchronizing the state you can share the card background color, card text color, current selected deck, current selected card and the card visibility.</string>
+    <string name="description_text_2">To synchronize the state between <b>Agile Planning Poker</b> and the wearable device you must start the <b>Wearable Planning Poker</b> app in your wearable device.</string>
+    <string name="description_text_3">Using the menu \"Send State to Phone\" to apply <b>Wearable Planning Poker</b> state to <b>Agile Planning Poker</b> state.</string>
+    <string name="description_text_4">And using the menu \"Get State from Phone\" to apply <b>Agile Planning Poker</b> state to <b>Wearable Planning Poker</b> state.</string>
 </resources>

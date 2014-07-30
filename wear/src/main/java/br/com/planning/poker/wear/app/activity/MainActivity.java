@@ -3,6 +3,7 @@ package br.com.planning.poker.wear.app.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.wearable.view.WatchViewStub;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -95,7 +96,7 @@ public class MainActivity extends Activity
 		CardsGalleryFragment gallery = getCardsGallery();
 		String deckName = PreferencesManager.getDeckNameByIndex(MainActivity.this, position);
 
-		PreferencesManager.setDeck(deckName, this);
+		PreferencesManager.setDeck(this, deckName);
 
 		gallery.loadCards(loadDeck(deckName), true);
 	}
@@ -114,10 +115,10 @@ public class MainActivity extends Activity
 
 		switch(resId) {
 			case R.string.get_data:
-				getDataFromWearable();
+				getDataFromHandheld();
 			break;
 			case R.string.send_data:
-				sendDataToWearable();
+				sendDataToHandheld();
 			break;
 			case R.string.change_deck:
 				showDeckPicker();
@@ -125,19 +126,23 @@ public class MainActivity extends Activity
 		}
 	}
 
-	void sendDataToWearable() {
-		sendMessageToWearable(SET_STATE, obtainCurrentState());
+	void sendDataToHandheld() {
+		sendMessageToHandheld(SET_STATE, obtainCurrentState());
 	}
 
-	void getDataFromWearable() {
-		sendMessageToWearable(GET_STATE, null);
+	void getDataFromHandheld() {
+		sendMessageToHandheld(GET_STATE, null);
 	}
 
-	public void sendMessageToWearable(String path, JSONObject data) {
-		mPendingSynchronization = true;
-		mWearManager.broadcastMessage(mGoogleApiClient, path, data);
+	public void sendMessageToHandheld(String path, JSONObject data) {
+		try {
+			mWearManager.broadcastMessage(mGoogleApiClient, path, data);
+			mPendingSynchronization = true;
 
-		updatePendingSynchronizationState();
+			updatePendingSynchronizationState();
+		} catch(WearManager.NodesNotFoundException e) {
+			Toast.makeText(this, R.string.no_devices_found, Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public JSONObject obtainCurrentState() {
@@ -194,10 +199,12 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onConnectionSuspended(int i) {
+		// TODO
 	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
+		// TODO
 	}
 
 	@Override
@@ -205,7 +212,7 @@ public class MainActivity extends Activity
 		mPendingSynchronization = false;
 
 		if(SET_STATE_RESPONSE.equals(path)) {
-			// TODO
+			notifyStateSynchronized();
 		} else if(GET_STATE_RESPONSE.equals(path)) {
 			try {
 				applyState(json);
@@ -229,51 +236,66 @@ public class MainActivity extends Activity
 	}
 
 	void applyState(JSONObject json) throws JSONException {
-		String deckName = json.getString(Params.DECK_NAME);
 
-		String customDeck = json.getString(Params.CUSTOM_DECK);
+		final String deckName = json.has(Params.DECK_NAME) ? json.getString(Params.DECK_NAME) : null;
+		final String customDeck = json.has(Params.CUSTOM_DECK) ? json.getString(Params.CUSTOM_DECK) : null;
+		final Integer backgroundColor = json.has(Params.BACKGROUND_COLOR) ? json.getInt(Params.BACKGROUND_COLOR) : null;
+		final Integer textColor = json.has(Params.TEXT_COLOR) ? json.getInt(Params.TEXT_COLOR) : null;
+		final Boolean visibility = json.has(Params.CARD_VISIBILITY) ? json.getBoolean(Params.CARD_VISIBILITY) : null;
+		final Integer selectedCard = json.has(Params.CURRENT_CARD) ? json.getInt(Params.CURRENT_CARD) : null;
 
-		// Avoid primitive problems (when an primitive value is not present, the default is returned =/)
-		Integer backgroundColor = json.has(Params.BACKGROUND_COLOR) ? json.getInt(Params.BACKGROUND_COLOR) : null;
-		Integer textColor = json.has(Params.TEXT_COLOR) ? json.getInt(Params.TEXT_COLOR) : null;
-		Boolean visibility = json.has(Params.CARD_VISIBILITY) ? json.getBoolean(Params.CARD_VISIBILITY) : null;
-		Integer selectedCard = json.has(Params.CURRENT_CARD) ? json.getInt(Params.CURRENT_CARD) : null;
-
-		CardsGalleryFragment gallery = getCardsGallery();
+		final CardsGalleryFragment gallery = getCardsGallery();
 
 		// Persist the deck on SharedPreferences
-		PreferencesManager.setDeck(deckName, this);
+		PreferencesManager.setDeck(this, deckName);
 
 		// Update Custom Deck on SharedPreferences
 		if(customDeck != null) {
 			PreferencesManager.setCustomDeck(this, customDeck);
 		}
 
-		// Change Deck on Fragment
-		loadDeck(deckName);
-
-		// Change the Background Color and persist
-		if(backgroundColor != null) {
-			PreferencesManager.setCardBackgroundColor(this, backgroundColor);
-			gallery.setCardBackgroundColor(backgroundColor, false);
-		}
-
-		// Change the Text Color and persist
-		if(textColor != null) {
-			PreferencesManager.setCardTextColor(this, textColor);
-			gallery.setCardTextColor(textColor, false);
-		}
-
 		// Change the selected card
-		if(selectedCard != null) {
-			gallery.setCurrentCard(selectedCard);
-		}
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
 
-		// Change card visibility
-		if(visibility != null) {
-			gallery.changeCardVisibility(visibility);
-		}
+				// Change the Background Color and persist
+				if(backgroundColor != null) {
+					PreferencesManager.setCardBackgroundColor(MainActivity.this, backgroundColor);
+					gallery.setCardBackgroundColor(backgroundColor, false);
+				}
 
-		// TODO Notify user
+				// Change the Text Color and persist
+				if(textColor != null) {
+					PreferencesManager.setCardTextColor(MainActivity.this, textColor);
+					gallery.setCardTextColor(textColor, false);
+				}
+
+				if(selectedCard != null) {
+					gallery.setCurrentCard(selectedCard);
+				}
+
+				// Change card visibility
+				if(visibility != null) {
+					gallery.changeCardVisibility(visibility);
+				}
+
+				// Change Deck on Fragment
+				if(deckName != null) {
+					gallery.loadCards(loadDeck(deckName));
+				}
+
+				Toast.makeText(MainActivity.this, R.string.state_synchronized, Toast.LENGTH_SHORT).show();
+			}
+		});
+	}
+
+	void notifyStateSynchronized() {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(MainActivity.this, R.string.state_synchronized, Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }

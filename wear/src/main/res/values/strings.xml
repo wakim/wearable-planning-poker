@@ -6,5 +6,7 @@
     <string name="more">More</string>
     <string name="change_deck">Change Deck</string>
     <string name="get_data">Get state from Phone</string>
-    <string name="send_data">Send state from Phone</string>
+    <string name="send_data">Send state to Phone</string>
+    <string name="state_synchronized">State Synchronized!</string>
+    <string name="no_devices_found">No devices Found.</string>
 </resources>

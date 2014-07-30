@@ -1,5 +1,7 @@
 package br.com.planning.poker.wear.app.application;
 
+import br.com.planning.poker.wear.R;
+import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 import br.com.planning.poker.wear.app.preferences.SharedPreferencesWrapper;
 
 /**
@@ -18,6 +20,8 @@ public class Application extends android.app.Application {
 		sInstance = this;
 
 		SharedPreferencesWrapper.setContext(this);
+		SharedPreferencesWrapper.getEditor().remove(getString(R.string.custom_deck_key)).commit();
+		PreferencesManager.setDeck(this, "deck_sizes");
 	}
 
 	public static Application getInstance() {

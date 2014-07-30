@@ -73,8 +73,6 @@ public abstract class TransitionAnimationWrapper {
 		};
 	}
 
-
-
 	public boolean isPrimaryVisible() {
 		return mPrimaryVisible;
 	}

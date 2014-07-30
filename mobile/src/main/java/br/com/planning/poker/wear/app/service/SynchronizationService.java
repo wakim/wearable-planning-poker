@@ -41,7 +41,7 @@ public class SynchronizationService extends WearableListenerService implements G
 	private static final String GET_STATE = "/get-state", SET_STATE = "/set-state",
 			GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response";
 
-	private static final String AGILE_PLANNING_POKER_PACKAGE = "br.com.poker.planning";
+	public static final String AGILE_PLANNING_POKER_PACKAGE = "br.com.planning.poker";
 
 	Bundle mExtras;
 	GoogleApiClient mGoogleApiClient;
@@ -115,7 +115,7 @@ public class SynchronizationService extends WearableListenerService implements G
 		bundle.putString(Params.CUSTOM_PARAM, messageEvent.getSourceNodeId()); // Source from this message
 
 		if(! startAgilePlanningPokerActivity(bundle)) {
-			// TODO Error Handling to Wearable
+			Log.i(Application.TAG, "Error!");
 		}
 	}
 
@@ -141,6 +141,10 @@ public class SynchronizationService extends WearableListenerService implements G
 
 			if(data.containsKey(Params.TEXT_COLOR)) {
 				json.put(Params.TEXT_COLOR, data.getInt(Params.TEXT_COLOR));
+			}
+
+			if(data.containsKey(Params.CUSTOM_DECK)) {
+				json.put(Params.CUSTOM_DECK, data.getString(Params.CUSTOM_DECK));
 			}
 
 			json.put(Params.TIMESTAMP, data.getLong(Params.TIMESTAMP));

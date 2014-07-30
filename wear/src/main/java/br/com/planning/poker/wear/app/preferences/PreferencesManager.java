@@ -16,7 +16,7 @@ public class PreferencesManager {
 	 * @param deckName
 	 * @param context
 	 */
-	public static void setDeck(String deckName, Context context) {
+	public static void setDeck(Context context, String deckName) {
 		SharedPreferencesWrapper.getEditor().putString(context.getString(R.string.deck_key), deckName).commit();
 	}
 	
@@ -147,7 +147,7 @@ public class PreferencesManager {
 		for(String s : deckValues) {
 			String[] cards = getDeckByNameAsArray(context, s);
 
-			if(! hasCustomDeck && "custom_deck".equals(s)) {
+			if(! hasCustomDeck && "deck_custom".equals(s)) {
 				continue;
 			}
 

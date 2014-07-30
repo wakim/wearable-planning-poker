@@ -28,7 +28,7 @@ public class FadeAnimationWrapper extends TransitionAnimationWrapper {
 
 	@Override
 	public void performShowAnimation(View primaryView, View secondaryView) {
-		super.performHideAnimation(primaryView, secondaryView);
+		super.performShowAnimation(primaryView, secondaryView);
 
 		mShowAnimation.setAnimationListener(getDefaultShowAnimationListener(primaryView, secondaryView));
 
@@ -39,8 +39,8 @@ public class FadeAnimationWrapper extends TransitionAnimationWrapper {
 
 	@Override
 	public void performHideAnimation(View primaryView, View secondaryView) {
-		super.performHideAnimation(primaryView, secondaryView)
-		;
+		super.performHideAnimation(primaryView, secondaryView);
+
 		mHideAnimation.setAnimationListener(getDefaultHideAnimationListener(primaryView, secondaryView));
 
 		if(primaryView != null) {

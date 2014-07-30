@@ -16,9 +16,11 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.com.planning.poker.wear.R;
+import br.com.planning.poker.wear.app.adapter.CardViewHelper;
 import br.com.planning.poker.wear.app.adapter.CardsGridPagerAdapter;
 import br.com.planning.poker.wear.app.animation.TransitionAnimationBuilder;
 import br.com.planning.poker.wear.app.animation.TransitionAnimationWrapper;
+import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 import br.com.planning.poker.wear.app.utils.DisplayHelper;
 
 /**
@@ -61,6 +63,9 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 				view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 			}
 		});
+
+		mHiddenCard.setTextColor(PreferencesManager.getCardTextColor(getActivity()));
+		CardViewHelper.changeColor(PreferencesManager.getCardBackgroundColor(getActivity()), mHiddenCard.getBackground());
 
 		return view;
 	}
@@ -115,10 +120,6 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 
 		if(mGridViewPager == null || mCards == null) {
 			return;
-		}
-
-		if(mAnimationWrapper != null && ! mAnimationWrapper.isPrimaryVisible()) {
-			showCard();
 		}
 
 		if(mAdapter != null) {
@@ -257,10 +258,14 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 
 	public void setCardBackgroundColor(int backgroundColor, boolean notify) {
 		mAdapter.setCardBackgroundColor(backgroundColor, notify);
+
+		CardViewHelper.changeColor(backgroundColor, mHiddenCard.getBackground());
 	}
 
 	public void setCardTextColor(int textColor, boolean notify) {
 		mAdapter.setCardTextColor(textColor, notify);
+
+		mHiddenCard.setTextColor(textColor);
 	}
 
 	public void changeCardVisibility(boolean visibility) {
