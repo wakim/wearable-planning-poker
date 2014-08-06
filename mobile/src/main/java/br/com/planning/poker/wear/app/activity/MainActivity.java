@@ -47,6 +47,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			hideView(R.id.am_app_not_found_card);
 
 			findViewById(R.id.am_app_card).setOnClickListener(this);
+
+			mAgilePlanningPokerIntent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
 		} else {
 			showView(R.id.am_app_not_found_card);
 			hideView(R.id.am_app_instructions_card);
@@ -72,7 +74,6 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			}
 		} else if(id == R.id.am_app_card) {
 			startActivity(mAgilePlanningPokerIntent);
-			finish();
 		}
 	}
 
