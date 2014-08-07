@@ -1,10 +1,14 @@
 package br.com.planning.poker.wear.app.fragment;
 
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.CircledImageView;
+import android.support.wearable.view.DismissOverlayView;
 import android.support.wearable.view.GridViewPager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -33,10 +37,14 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 	TextView mHiddenCard;
 	CircledImageView mHideButton, mShowButton;
 
+	DismissOverlayView mDismissOverlayView;
+
 	List<String> mCards;
 	TransitionAnimationWrapper mAnimationWrapper;
 
 	CardsGalleryCallback mCallback;
+
+	View.OnLongClickListener mDismissListener;
 
 	public CardsGalleryFragment() {}
 
@@ -56,6 +64,8 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 
 		view.findViewById(R.id.fcg_button_more).setOnClickListener(this);
 
+		mDismissOverlayView = (DismissOverlayView) view.findViewById(R.id.dismiss_overlay);
+
 		view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 			@Override
 			public void onGlobalLayout() {
@@ -64,8 +74,21 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 			}
 		});
 
+		mDismissListener = new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				mDismissOverlayView.show();
+				return true;
+			}
+		};
+
+		view.setOnLongClickListener(mDismissListener);
+		mGridViewPager.setOnLongClickListener(mDismissListener);
+
 		mHiddenCard.setTextColor(PreferencesManager.getCardTextColor(getActivity()));
 		CardViewHelper.changeColor(PreferencesManager.getCardBackgroundColor(getActivity()), mHiddenCard.getBackground());
+
+		mDismissOverlayView.setIntroText(R.string.dismiss_overlay_intro);
 
 		return view;
 	}
@@ -83,6 +106,8 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 		mShowButton = null;
 
 		mCallback = null;
+
+		mDismissListener = null;
 	}
 
 	@Override
@@ -126,6 +151,7 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 			mAdapter.setCards(mCards);
 		} else {
 			mAdapter = new CardsGridPagerAdapter(getActivity(), mCards);
+			mAdapter.setOnLongClickListener(mDismissListener);
 			mGridViewPager.setAdapter(mAdapter);
 		}
 
@@ -212,13 +238,13 @@ public class CardsGalleryFragment extends Fragment implements View.OnClickListen
 		if(show) {
 			showCard();
 
-			mShowButton.setVisibility(View.INVISIBLE);
+			mShowButton.setVisibility(View.GONE);
 			mHideButton.setVisibility(View.VISIBLE);
 		} else {
 			hideCard();
 
 			mShowButton.setVisibility(View.VISIBLE);
-			mHideButton.setVisibility(View.INVISIBLE);
+			mHideButton.setVisibility(View.GONE);
 		}
 	}
 

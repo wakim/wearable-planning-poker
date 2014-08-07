@@ -21,6 +21,7 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 
 	List<String> mCards = new ArrayList<String>();
 	CardViewHelper mHelper;
+	View.OnLongClickListener mLongListener;
 
 	public CardsGridPagerAdapter(Context context, List<String> cards, Point size) {
 		int backgroundColor = PreferencesManager.getCardBackgroundColor(context),
@@ -40,6 +41,10 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 		mHelper.setHeight(size.y);
 	}
 
+	public void setOnLongClickListener(View.OnLongClickListener longListener) {
+		mLongListener = longListener;
+	}
+
 	@Override
 	public int getRowCount() {
 		return 1;
@@ -57,6 +62,10 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 		View view = mHelper.getView(card, column, null);
 
 		view.setTag(card);
+
+		if(mLongListener != null) {
+			view.setOnLongClickListener(mLongListener);
+		}
 
 		container.addView(view);
 
@@ -90,6 +99,8 @@ public class CardsGridPagerAdapter extends GridPagerAdapter {
 		mCards = null;
 		mHelper.destroy();
 		mHelper = null;
+
+		mLongListener = null;
 	}
 
 	public void setCardBackgroundColor(int backgroundColor, boolean notify) {

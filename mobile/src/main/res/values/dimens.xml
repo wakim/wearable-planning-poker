@@ -10,5 +10,5 @@
     <dimen name="card_margin">8dip</dimen>
 
     <dimen name="title_text_size">12pt</dimen>
-    <dimen name="common_text_size">10pt</dimen>
+    <dimen name="common_text_size">9pt</dimen>
 </resources>

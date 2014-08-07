@@ -66,7 +66,7 @@ public class FadeAnimationWrapper extends TransitionAnimationWrapper {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				if(primaryView != null) {
-					primaryView.setVisibility(View.GONE);
+					primaryView.setVisibility(View.INVISIBLE);
 				}
 
 				if(secondaryView != null) {
@@ -93,7 +93,7 @@ public class FadeAnimationWrapper extends TransitionAnimationWrapper {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				if(secondaryView != null) {
-					secondaryView.setVisibility(View.GONE);
+					secondaryView.setVisibility(View.INVISIBLE);
 				}
 			}
 

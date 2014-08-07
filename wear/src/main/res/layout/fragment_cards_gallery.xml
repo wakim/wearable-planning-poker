@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/card_drawable"
-            android:visibility="gone" />
+            android:visibility="invisible" />
 
         <br.com.planning.poker.wear.app.view.CustomGridViewPager
             android:id="@+id/fcg_grid_view_pager"
@@ -35,7 +35,7 @@
         android:src="@drawable/ic_visibility"
         android:layout_marginLeft="@dimen/button_border_margin"
         android:layout_marginTop="@dimen/button_border_margin"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:circle_radius="@dimen/circle_radius"
         app:circle_radius_pressed="@dimen/circle_radius_pressed"
         app:circle_color="@color/red"
@@ -67,5 +67,10 @@
         app:circle_radius_pressed="@dimen/circle_radius_pressed"
         app:circle_color="@color/red"
         app:layout_box="right" />
+
+    <android.support.wearable.view.DismissOverlayView
+        android:id="@+id/dismiss_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </android.support.wearable.view.BoxInsetLayout>

@@ -20,6 +20,7 @@ import br.com.planning.poker.wear.app.fragment.DeckPickerFragment;
 import br.com.planning.poker.wear.app.fragment.SettingsFragment;
 import br.com.planning.poker.wear.app.nodes.WearManager;
 import br.com.planning.poker.wear.app.preferences.PreferencesManager;
+import br.com.planning.poker.wear.app.utils.InformationAnimationHelper;
 import br.com.planning.poker.wear.app.utils.Params;
 
 public class MainActivity extends Activity
@@ -29,6 +30,7 @@ public class MainActivity extends Activity
 
 	GoogleApiClient mGoogleApiClient;
 	WearManager mWearManager;
+	CardsGalleryFragment mFragment;
 
 	boolean mPendingSynchronization = false;
 
@@ -69,13 +71,19 @@ public class MainActivity extends Activity
 			fragment.setCardsGalleryCallback(this);
 
 			getFragmentManager().beginTransaction().add(R.id.amc_frame_layout, fragment, getString(R.string.fragment_cards_gallery_tag)).commit();
+
+			mFragment = fragment;
 		}
 
 		return fragment;
 	}
 
 	CardsGalleryFragment getCardsGallery() {
-		return (CardsGalleryFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_cards_gallery_tag));
+		if(mFragment == null) {
+			mFragment = (CardsGalleryFragment) getFragmentManager().findFragmentByTag(getString(R.string.fragment_cards_gallery_tag));
+		}
+
+		return mFragment;
 	}
 
 	SettingsFragment getSettings() {
@@ -141,7 +149,7 @@ public class MainActivity extends Activity
 
 			updatePendingSynchronizationState();
 		} catch(WearManager.NodesNotFoundException e) {
-			Toast.makeText(this, R.string.no_devices_found, Toast.LENGTH_SHORT).show();
+			InformationAnimationHelper.showAnimation(this, R.string.no_devices_found, InformationAnimationHelper.InformationType.FAIULRE);
 		}
 	}
 
@@ -285,7 +293,7 @@ public class MainActivity extends Activity
 					gallery.loadCards(loadDeck(deckName));
 				}
 
-				Toast.makeText(MainActivity.this, R.string.state_synchronized, Toast.LENGTH_SHORT).show();
+				InformationAnimationHelper.showAnimation(MainActivity.this, R.string.state_synchronized, InformationAnimationHelper.InformationType.SUCCESS);
 			}
 		});
 	}
@@ -294,7 +302,7 @@ public class MainActivity extends Activity
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(MainActivity.this, R.string.state_synchronized, Toast.LENGTH_SHORT).show();
+				InformationAnimationHelper.showAnimation(MainActivity.this, R.string.state_synchronized, InformationAnimationHelper.InformationType.SUCCESS);
 			}
 		});
 	}

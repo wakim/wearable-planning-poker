@@ -133,6 +133,10 @@ public class CardViewHelper {
 			textSize = calculateTextSize(cardLabel);
 		}
 
+		if(textSize >= 512f) {
+			textSize = 512f;
+		}
+
 		// Faz cache do tamando para evitar recalculo
 		mFontCache.put(cacheKey, textSize);
 

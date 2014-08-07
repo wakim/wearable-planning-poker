@@ -20,8 +20,6 @@ public class Application extends android.app.Application {
 		sInstance = this;
 
 		SharedPreferencesWrapper.setContext(this);
-		SharedPreferencesWrapper.getEditor().remove(getString(R.string.custom_deck_key)).commit();
-		PreferencesManager.setDeck(this, "deck_sizes");
 	}
 
 	public static Application getInstance() {

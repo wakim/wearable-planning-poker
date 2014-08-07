@@ -4,9 +4,10 @@
     <string name="hide">Hide</string>
     <string name="show">Show</string>
     <string name="more">More</string>
-    <string name="change_deck">Change Deck</string>
-    <string name="get_data">Get state from Phone</string>
-    <string name="send_data">Send state to Phone</string>
-    <string name="state_synchronized">State Synchronized!</string>
-    <string name="no_devices_found">No devices Found.</string>
+    <string name="change_deck">Change deck</string>
+    <string name="get_data">Get state from handheld</string>
+    <string name="send_data">Send state to handheld</string>
+    <string name="state_synchronized">State synchronized!</string>
+    <string name="dismiss_overlay_intro">Want to quit?</string>
+    <string name="no_devices_found">No devices found.</string>
 </resources>
