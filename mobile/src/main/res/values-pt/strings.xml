@@ -7,6 +7,7 @@
     <string name="app_not_found_text_2">Clique para instalar o app.</string>
 
     <string name="app_found_title">Iniciar o Agile Planning Poker</string>
+    <string name="start_wearable_title">Iniciar Wearable Planning Poker em seu Wearable</string>
 
     <string name="description_title">Instruções</string>
     <string name="description_text_1">Você pode compartilhar a cor de fundo, a cor do texto, o baralho selecionado, a carta selecionada e a visibilidade da carta.</string>

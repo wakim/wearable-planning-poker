@@ -10,7 +10,7 @@ import br.com.planning.poker.wear.R;
 
 public class PreferencesManager {
 	private static final Class<?> array = R.array.class;
-	
+
 	/**
 	 * Seta na SharedPreferences o deck escolhido pelo usuario
 	 * @param deckName
@@ -237,7 +237,9 @@ public class PreferencesManager {
 
 		ArrayList<String> cards = new ArrayList<String>();
 
-		for(String card : customDeck.split(",")) {
+		String[] spl = customDeck.split(",", -1);
+
+		for(String card : spl) {
 			cards.add(card);
 		}
 

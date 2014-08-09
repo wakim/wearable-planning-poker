@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="deck_description">
+        <item>Fibonacci Modificado</item>
+        <item>Fibonacci</item>
+        <item>Horas</item>
+        <item>Tamanhos</item>
+        <item>Pessoal</item>
+    </string-array>
+</resources>

@@ -3,6 +3,7 @@ package br.com.planning.poker.wear.app.adapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.DrawableContainer;
@@ -180,7 +181,7 @@ public class CardViewHelper {
 
 				// Esta invertido e nao sei porque.
 				if(states.length == 0) {
-					child.setColor(adjustBrightness(newColor, 0.8f));
+					child.setColor(darkenColor(newColor));
 				} else {
 					child.setColor(newColor);
 				}
@@ -188,39 +189,13 @@ public class CardViewHelper {
 		}
 	}
 
-	protected static int adjustBrightness(int color, float adjustment) {
-		int alpha = (color & 0xFF000000);
-		int r = (color & 0x00FF0000) >> 16;
-		int g = (color & 0x0000FF00) >> 8;
-		int b = (color & 0x000000FF);
+	public static int darkenColor(int color) {
+		float[] hsv = new float[3];
 
-		float rf = (float) r * adjustment;
-		float rg = (float) g * adjustment;
-		float rb = (float) b * adjustment;
+		Color.colorToHSV(color, hsv);
+		hsv[2] *= 0.8f;
 
-		r = (int) rf;
-		g = (int) rg;
-		b = (int) rb;
-
-		if(r > 0xFF) {
-			r = 0xFF;
-		} else if(r < 0) {
-			r = 0;
-		}
-
-		if(g > 0xFF) {
-			g = 0xFF;
-		} else if(g < 0) {
-			g = 0;
-		}
-
-		if(b > 0xFF) {
-			b = 0xFF;
-		} else if (b < 0) {
-			b = 0;
-		}
-
-		return alpha | (r << 16) | (g << 8) | b;
+		return Color.HSVToColor(hsv);
 	}
 
 	public void setLayoutInflater(LayoutInflater layoutInflater) {

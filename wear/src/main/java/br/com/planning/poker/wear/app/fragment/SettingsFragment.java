@@ -21,10 +21,6 @@ public class SettingsFragment extends SemiTransparentDialogFragment implements W
 
 	SettingsCallback mCallback;
 
-	TextView mPendingTextView;
-
-	boolean mPendingSynchronization = false;
-
 	public SettingsFragment() {
 		setShowsDialog(true);
 	}
@@ -34,7 +30,6 @@ public class SettingsFragment extends SemiTransparentDialogFragment implements W
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_settings, null);
 
-		mPendingTextView = (TextView) view.findViewById(R.id.fs_text_view);
 		WearableListView list = (WearableListView) view.findViewById(R.id.fs_wearable_listview);
 
 		SettingsAdapter adapter = new SettingsAdapter(getActivity());
@@ -44,8 +39,6 @@ public class SettingsFragment extends SemiTransparentDialogFragment implements W
 
 		list.setClickListener(this);
 		list.setAdapter(adapter);
-
-		updatePendingTextState();
 
 		return view;
 	}
@@ -64,18 +57,6 @@ public class SettingsFragment extends SemiTransparentDialogFragment implements W
 
 	public void setSettingsCallback(SettingsCallback callback) {
 		mCallback = callback;
-	}
-
-	public void setPendingSynchronization(boolean pendingSynchronization) {
-		mPendingSynchronization = pendingSynchronization;
-
-		updatePendingTextState();
-	}
-
-	void updatePendingTextState() {
-		if(mPendingTextView != null) {
-			mPendingTextView.setVisibility(mPendingSynchronization ? View.VISIBLE : View.GONE);
-		}
 	}
 
 	public static interface SettingsCallback {

@@ -12,13 +12,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.service.SynchronizationService;
+import br.com.planning.poker.wear.app.utils.Params;
 
 
 public class MainActivity extends ActionBarActivity implements View.OnClickListener {
 
 	Intent mAgilePlanningPokerIntent;
+	private static final String START_WEARABLE = "/start-wearable";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,14 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 		setContentView(R.layout.activity_main);
 
 		checkForAgilePlanningPoker();
+	}
+
+	void startWearablePlanningPoker() {
+		Intent service = new Intent(this, SynchronizationService.class);
+
+		service.putExtra(Params.METHOD, START_WEARABLE);
+
+		startService(service);
 	}
 
 	@Override
@@ -56,6 +68,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 
 			findViewById(R.id.am_app_not_found_card).setOnClickListener(this);
 		}
+
+		findViewById(R.id.am_app_wearable).setOnClickListener(this);
 	}
 
 	@Override
@@ -74,6 +88,8 @@ public class MainActivity extends ActionBarActivity implements View.OnClickListe
 			}
 		} else if(id == R.id.am_app_card) {
 			startActivity(mAgilePlanningPokerIntent);
+		} else if(id == R.id.am_app_wearable) {
+			startWearablePlanningPoker();
 		}
 	}
 

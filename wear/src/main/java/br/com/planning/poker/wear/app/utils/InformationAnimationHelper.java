@@ -26,11 +26,18 @@ public abstract class InformationAnimationHelper {
 		}
 	}
 
-	public static void showAnimation(Context context, @StringRes int stringResId, InformationType type) {
+	public static void showAnimation(Context context, InformationType type) {
+		showAnimation(context, null, type);
+	}
+
+	public static void showAnimation(Context context, @StringRes Integer stringResId, InformationType type) {
 		Intent confirmationActivity = new Intent(context, ConfirmationActivity.class)
 				.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION)
-				.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, type.getFlag())
-				.putExtra(ConfirmationActivity.EXTRA_MESSAGE, context.getString(stringResId));
+				.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE, type.getFlag());
+
+		if(stringResId != null) {
+			confirmationActivity.putExtra(ConfirmationActivity.EXTRA_MESSAGE, context.getString(stringResId));
+		}
 
 		context.startActivity(confirmationActivity);
 	}

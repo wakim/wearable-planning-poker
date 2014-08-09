@@ -117,26 +117,26 @@ public class WearManager implements NodeApi.NodeListener, MessageApi.MessageList
 		JSONObject json = byteArrayToJSONObject(data);
 
 		// Data always must be JSON Valid
-		if(json == null) {
-			return;
-		}
-
-		Calendar timestamp = Calendar.getInstance();
-
-		try {
-			timestamp.setTimeInMillis(json.getLong(Params.TIMESTAMP));
-		} catch (JSONException e) {
-			return;
-		}
-
-		// Drop this response, another is on the way
-		if(timestamp.before(mTimestamp)) {
+		if(json != null && ! validateResponse(json)) {
 			return;
 		}
 
 		if(mCallback != null) {
 			mCallback.onMessageReceived(messageEvent.getPath(), messageEvent.getSourceNodeId(), json);
 		}
+	}
+
+	boolean validateResponse(JSONObject json) {
+		Calendar timestamp = Calendar.getInstance();
+
+		try {
+			timestamp.setTimeInMillis(json.getLong(Params.TIMESTAMP));
+		} catch (JSONException e) {
+			return false;
+		}
+
+		// Drop this response, another is on the way
+		return ! timestamp.before(mTimestamp);
 	}
 
 	public static class NodesNotFoundException extends RuntimeException {

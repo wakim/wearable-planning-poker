@@ -3,12 +3,12 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="vertical_card_header_padding">8dip</dimen>
-    <dimen name="horizontal_card_header_padding">8dip</dimen>
+    <dimen name="vertical_card_header_padding">16dip</dimen>
+    <dimen name="horizontal_card_header_padding">16dip</dimen>
 
-    <dimen name="card_padding">8dip</dimen>
+    <dimen name="card_padding">16dip</dimen>
     <dimen name="card_margin">8dip</dimen>
 
     <dimen name="title_text_size">12pt</dimen>
-    <dimen name="common_text_size">9pt</dimen>
+    <dimen name="common_text_size">8pt</dimen>
 </resources>

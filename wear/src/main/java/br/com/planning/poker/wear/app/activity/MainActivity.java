@@ -32,10 +32,9 @@ public class MainActivity extends Activity
 	WearManager mWearManager;
 	CardsGalleryFragment mFragment;
 
-	boolean mPendingSynchronization = false;
-
 	private static final String GET_STATE = "/get-state", SET_STATE = "/set-state",
-		GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response";
+		GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response",
+		APP_NOT_FOUND = "/app-not-found", APP_STARTED = "/app-started";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +94,6 @@ public class MainActivity extends Activity
 		SettingsFragment sf = new SettingsFragment();
 
 		sf.setSettingsCallback(this);
-		sf.setPendingSynchronization(mPendingSynchronization);
 		sf.show(getFragmentManager(), getString(R.string.fragment_settings_tag));
 	}
 
@@ -145,9 +143,6 @@ public class MainActivity extends Activity
 	public void sendMessageToHandheld(String path, JSONObject data) {
 		try {
 			mWearManager.broadcastMessage(mGoogleApiClient, path, data);
-			mPendingSynchronization = true;
-
-			updatePendingSynchronizationState();
 		} catch(WearManager.NodesNotFoundException e) {
 			InformationAnimationHelper.showAnimation(this, R.string.no_devices_found, InformationAnimationHelper.InformationType.FAIULRE);
 		}
@@ -217,30 +212,22 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onMessageReceived(String path, String nodeId, JSONObject json) {
-		mPendingSynchronization = false;
-
 		if(SET_STATE_RESPONSE.equals(path)) {
 			notifyStateSynchronized();
 		} else if(GET_STATE_RESPONSE.equals(path)) {
 			try {
 				applyState(json);
 			} catch(JSONException e) {}
+		} else if(APP_NOT_FOUND.equals(path)) {
+			InformationAnimationHelper.showAnimation(MainActivity.this, R.string.app_not_found, InformationAnimationHelper.InformationType.FAIULRE);
+		} else if(APP_STARTED.equals(path)) {
+			InformationAnimationHelper.showAnimation(MainActivity.this, R.string.app_started, InformationAnimationHelper.InformationType.OPEN_ON_PHONE);
 		}
-
-		updatePendingSynchronizationState();
 	}
 
 	@Override
 	public void onMessageSendError(String path) {
 		// TODO
-	}
-
-	void updatePendingSynchronizationState() {
-		SettingsFragment sf = getSettings();
-
-		if(sf != null && sf.isVisible()) {
-			sf.setPendingSynchronization(mPendingSynchronization);
-		}
 	}
 
 	void applyState(JSONObject json) throws JSONException {

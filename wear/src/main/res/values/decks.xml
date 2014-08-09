@@ -10,14 +10,6 @@
         <item>deck_custom</item>
     </string-array>
 
-    <string-array name="deck_description">
-        <item>Modified Fibonacci</item>
-        <item>Fibonacci</item>
-        <item>Hours</item>
-        <item>Sizes</item>
-        <item>Personal</item>
-    </string-array>
-
     <string-array name="deck_standard">
         <item>@string/card_int</item>
         <item>@string/card_0</item>

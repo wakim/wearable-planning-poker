@@ -7,7 +7,9 @@
     <string name="change_deck">Trocar baralho</string>
     <string name="get_data">Pegar estado do handheld</string>
     <string name="send_data">Enviar estado para handheld</string>
-    <string name="state_synchronized">Estado sincronizado!</string>
+    <string name="state_synchronized">Estado sincronizado</string>
+    <string name="app_not_found">Agile Planning Poker não encontrado</string>
+    <string name="app_started">Aberto no handheld</string>
     <string name="dismiss_overlay_intro">Deseja sair?</string>
     <string name="no_devices_found">Nenhum dispositivo encontrado.</string>
 </resources>

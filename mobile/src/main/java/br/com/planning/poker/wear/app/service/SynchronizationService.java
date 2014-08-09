@@ -3,6 +3,7 @@ package br.com.planning.poker.wear.app.service;
 import android.app.ActivityManager;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -25,13 +26,17 @@ import com.google.android.gms.wearable.WearableListenerService;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import br.com.planning.poker.wear.app.application.Application;
+import br.com.planning.poker.wear.app.utils.MulticastPendingResponse;
 import br.com.planning.poker.wear.app.utils.Params;
+import br.com.planning.poker.wear.app.utils.PendingResponse;
+import br.com.planning.poker.wear.app.utils.SimplePendingResponse;
 
 /**
  * Created by wakim on 22/07/14.
@@ -39,56 +44,95 @@ import br.com.planning.poker.wear.app.utils.Params;
 public class SynchronizationService extends WearableListenerService implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
 	private static final String GET_STATE = "/get-state", SET_STATE = "/set-state",
-			GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response";
+			GET_STATE_RESPONSE = "/get-state-response", SET_STATE_RESPONSE = "/set-state-response",
+			APP_NOT_FOUND = "/app-not-found", APP_STARTED = "/app-started", START_WEARABLE = "/start-wearable";
 
 	public static final String AGILE_PLANNING_POKER_PACKAGE = "br.com.planning.poker";
 
-	Bundle mExtras;
 	GoogleApiClient mGoogleApiClient;
+
+	List<PendingResponse> mPendingResponses = new ArrayList<PendingResponse>();
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		int flag = super.onStartCommand(intent, flags, startId);
 
+		String method = intent.hasExtra(Params.METHOD) ? intent.getStringExtra(Params.METHOD) : null;
+
 		// Response from AGILE PLANNING POKER
-		if(intent.hasExtra(Params.METHOD)) {
-			mExtras = intent.getExtras();
+		if(method == null) {
+			stopSelf();
+			return flag;
+		}
 
-			mGoogleApiClient = new GoogleApiClient.Builder(this)
-					.addApi(Wearable.API)
-					.addConnectionCallbacks(this)
-					.addOnConnectionFailedListener(this)
-					.build();
-
-			mGoogleApiClient.connect();
+		if(START_WEARABLE.equals(method)) {
+			sendResponse(new MulticastPendingResponse(method));
+		} else {
+			sendResponseToNode(intent.getExtras());
 		}
 
 		return flag;
 	}
 
+	void connectedToGoogleServices() {
+		mGoogleApiClient = new GoogleApiClient.Builder(this)
+				.addApi(Wearable.API)
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.build();
+
+		mGoogleApiClient.connect();
+	}
+
 	@Override
 	public void onConnected(Bundle bundle) {
-		sendResponseToNode();
+		sendPendingResponses();
 	}
 
 	@Override
 	public void onConnectionSuspended(int i) {}
 
-	void sendResponseToNode() {
-		String method = mExtras.getString(Params.METHOD);
-		String nodeId = mExtras.getString(Params.CUSTOM_PARAM);
+	void sendResponseToNode(Bundle extras) {
+		String method = extras.getString(Params.METHOD);
+		String nodeId = extras.getString(Params.CUSTOM_PARAM);
 		byte[] data = null;
 
-		if(SET_STATE_RESPONSE.equals(method)) {
-			// Nothing to do, just the response is fine
-		} else if(GET_STATE_RESPONSE.equals(method)) {
-			JSONObject json = populateJSON(mExtras);
-			data = JSONObjectToByteArray(json);
-		} else {
+		if(! SET_STATE_RESPONSE.equals(method) && ! GET_STATE_RESPONSE.equals(method)) {
 			return;
 		}
 
-		Wearable.MessageApi.sendMessage(mGoogleApiClient, nodeId, method, data);
+		JSONObject json = populateJSON(extras);
+		data = JSONObjectToByteArray(json);
+
+		sendResponse(new SimplePendingResponse(nodeId, method, data));
+	}
+
+	void doAppNotFoundResponse(String nodeId) {
+		sendResponse(new SimplePendingResponse(nodeId, APP_NOT_FOUND, null));
+	}
+
+	void doAppStartedResponse(String nodeId) {
+		sendResponse(new SimplePendingResponse(nodeId, APP_STARTED, null));
+	}
+
+	void sendResponse(PendingResponse pendingResponse) {
+		if(mGoogleApiClient == null) {
+			connectedToGoogleServices();
+			mPendingResponses.add(pendingResponse);
+			return;
+		} else {
+			if(mGoogleApiClient.isConnected() && ! mGoogleApiClient.isConnecting()) {
+				pendingResponse.send(mGoogleApiClient);
+			}
+		}
+	}
+
+	void sendPendingResponses() {
+		for(PendingResponse pr : mPendingResponses) {
+			sendResponse(pr);
+		}
+
+		mPendingResponses.clear();
 	}
 
 	@Override
@@ -114,8 +158,8 @@ public class SynchronizationService extends WearableListenerService implements G
 		bundle.putString(Params.REMOTE_SERVICE_CLASS, getClass().getPackage().getName().concat(".").concat(getClass().getSimpleName()));
 		bundle.putString(Params.CUSTOM_PARAM, messageEvent.getSourceNodeId()); // Source from this message
 
-		if(! startAgilePlanningPokerActivity(bundle)) {
-			Log.i(Application.TAG, "Error!");
+		if(! startAgilePlanningPokerActivity(bundle, messageEvent.getSourceNodeId())) {
+			doAppNotFoundResponse(messageEvent.getSourceNodeId());
 		}
 	}
 
@@ -191,10 +235,28 @@ public class SynchronizationService extends WearableListenerService implements G
 		return json.toString().getBytes();
 	}
 
-	boolean startAgilePlanningPokerActivity(Bundle data) {
+	boolean startAgilePlanningPokerActivity(Bundle data, String nodeId) {
 
 		final PackageManager pm = getPackageManager();
 		Intent i = pm.getLaunchIntentForPackage(AGILE_PLANNING_POKER_PACKAGE);
+
+		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+
+		List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(Integer.MAX_VALUE);
+
+		// App was started with the Intent
+		boolean appStarted = true;
+
+		for(ActivityManager.RunningTaskInfo runningTaskInfo : tasks) {
+			if(AGILE_PLANNING_POKER_PACKAGE.equals(runningTaskInfo.baseActivity.getPackageName())) {
+				appStarted = false;
+				break;
+			}
+		}
+
+		if(appStarted) {
+			doAppStartedResponse(nodeId);
+		}
 
 		if(i != null) {
 

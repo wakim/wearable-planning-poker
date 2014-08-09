@@ -7,7 +7,9 @@
     <string name="change_deck">Change deck</string>
     <string name="get_data">Get state from handheld</string>
     <string name="send_data">Send state to handheld</string>
-    <string name="state_synchronized">State synchronized!</string>
+    <string name="state_synchronized">State synchronized</string>
+    <string name="app_not_found">Agile Planning Poker not found</string>
+    <string name="app_started">Opened on handheld</string>
     <string name="dismiss_overlay_intro">Want to quit?</string>
     <string name="no_devices_found">No devices found.</string>
 </resources>

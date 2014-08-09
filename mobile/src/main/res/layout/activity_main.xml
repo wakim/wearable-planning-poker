@@ -81,9 +81,35 @@
                 android:fontFamily="sans-serif-light"
                 android:gravity="center_vertical"
                 android:textStyle="bold"
-                android:drawableStart="@drawable/ic_info_outline"
+                android:drawableLeft="@drawable/ic_info_outline"
                 android:drawablePadding="8dip"
                 android:text="@string/app_found_title"
+                android:drawableRight="@drawable/ic_arrow_forward" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/am_app_wearable"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/card_margin"
+            android:layout_marginRight="@dimen/card_margin"
+            android:layout_marginTop="@dimen/card_margin"
+            android:padding="@dimen/card_padding"
+            android:background="@drawable/card_ui_background_light">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/common_text_size"
+                android:textColor="@color/holo_dark_green"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:drawableLeft="@drawable/ic_info_outline"
+                android:drawablePadding="8dip"
+                android:text="@string/start_wearable_title"
                 android:drawableRight="@drawable/ic_arrow_forward" />
 
         </LinearLayout>
