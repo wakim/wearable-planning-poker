@@ -1,7 +1,5 @@
 package br.com.planning.poker.wear.app.application;
 
-import br.com.planning.poker.wear.R;
-import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 import br.com.planning.poker.wear.app.preferences.SharedPreferencesWrapper;
 
 /**

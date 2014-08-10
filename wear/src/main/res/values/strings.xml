@@ -11,5 +11,5 @@
     <string name="app_not_found">Agile Planning Poker not found</string>
     <string name="app_started">Opened on handheld</string>
     <string name="dismiss_overlay_intro">Want to quit?</string>
-    <string name="no_devices_found">No devices found.</string>
+    <string name="no_devices_found">No devices</string>
 </resources>

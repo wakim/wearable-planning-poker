@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.support.annotation.StringRes;
 import android.support.wearable.activity.ConfirmationActivity;
 
-import br.com.planning.poker.wear.R;
-
 /**
  * Created by wakim on 07/08/14.
  */

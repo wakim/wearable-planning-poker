@@ -6,12 +6,10 @@ import android.support.wearable.view.GridPagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.preferences.PreferencesManager;
 
 /**

@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wearable Planning Poker</string>
+    <string name="app_name">Wear Planning Poker</string>
 
     <string name="app_not_found_title">Information</string>
     <string name="app_not_found_text_1">Agile Planning Poker not found.\n\nTo mirror state between wearable and handheld, you must install the <b>Agile Planning Poker</b> app from Market.</string>
     <string name="app_not_found_text_2">Click here to install the app.</string>
 
     <string name="app_found_title">Start Agile Planning Poker</string>
-    <string name="start_wearable_title">Start Wearable Planning Poker on your Wearable</string>
+    <string name="start_wearable_title">Start Wear Planning Poker on your Wearable</string>
 
     <string name="description_title">Instructions</string>
     <string name="description_text_1">You can mirror the card background color, card text color, current selected deck, current selected card and the card visibility.</string>
-    <string name="description_text_2">To mirror the state between <b>Agile Planning Poker</b> and the wearable device you must start the <b>Wearable Planning Poker</b> app in your wearable device.</string>
-    <string name="description_text_3">Using the menu \"Send state to handheld\" to apply <b>Wearable Planning Poker</b> state to <b>Agile Planning Poker</b> state.</string>
-    <string name="description_text_4">And using the menu \"Get state from handheld\" to apply <b>Agile Planning Poker</b> state to <b>Wearable Planning Poker</b> state.</string>
+    <string name="description_text_2">To mirror the state between <b>Agile Planning Poker</b> and the wearable device you must start the <b>Wear Planning Poker</b> app in your wearable device.</string>
+    <string name="description_text_3">Using the menu \"Send state to handheld\" to apply <b>Wear Planning Poker</b> state to <b>Agile Planning Poker</b> state.</string>
+    <string name="description_text_4">And using the menu \"Get state from handheld\" to apply <b>Agile Planning Poker</b> state to <b>Wear Planning Poker</b> state.</string>
+
+    <string name="no_devices_found">No devices found.</string>
 </resources>

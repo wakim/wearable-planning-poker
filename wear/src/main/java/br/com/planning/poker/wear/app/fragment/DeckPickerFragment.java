@@ -1,10 +1,5 @@
 package br.com.planning.poker.wear.app.fragment;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.wearable.view.WearableListView;

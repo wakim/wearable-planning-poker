@@ -21,7 +21,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/card_margin"
             android:layout_marginRight="@dimen/card_margin"
-            android:layout_marginTop="@dimen/card_margin"
             android:padding="@dimen/card_padding"
             android:background="@drawable/card_ui_background_light">
 
@@ -69,7 +68,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/card_margin"
             android:layout_marginRight="@dimen/card_margin"
-            android:layout_marginTop="@dimen/card_margin"
             android:padding="@dimen/card_padding"
             android:background="@drawable/card_ui_background_light">
 

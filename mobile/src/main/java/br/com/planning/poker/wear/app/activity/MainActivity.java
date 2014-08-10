@@ -1,18 +1,12 @@
 package br.com.planning.poker.wear.app.activity;
 
-import android.app.IntentService;
 import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.service.SynchronizationService;

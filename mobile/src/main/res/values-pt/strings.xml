@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Wearable Planning Poker</string>
+    <string name="app_name">Wear Planning Poker</string>
 
     <string name="app_not_found_title">Informação</string>
     <string name="app_not_found_text_1">Agile Planning Poker não foi encontrado.\n\nPara compartilhar o estado entre o wearable e seu handheld, você deve instalar o aplicativo <b>Agile Planning Poker</b> disponível na loja.</string>
     <string name="app_not_found_text_2">Clique para instalar o app.</string>
 
     <string name="app_found_title">Iniciar o Agile Planning Poker</string>
-    <string name="start_wearable_title">Iniciar Wearable Planning Poker em seu Wearable</string>
+    <string name="start_wearable_title">Iniciar Wear Planning Poker em seu Wearable</string>
 
     <string name="description_title">Instruções</string>
     <string name="description_text_1">Você pode compartilhar a cor de fundo, a cor do texto, o baralho selecionado, a carta selecionada e a visibilidade da carta.</string>
-    <string name="description_text_2">Para compartilhar o estado entre o <b>Agile Planning Poker</b> e o dispositivo wearable você deve iniciar o app <b>Wearable Planning Poker</b> em seu wearable.</string>
-    <string name="description_text_3">Use o menu \"Enviar estado para o handheld\" para aplicar o estado do <b>Wearable Planning Poker</b> no estado do <b>Agile Planning Poker</b>.</string>
-    <string name="description_text_4">E use o menu \"Pegar estado do handheld\" para aplicar o estado do <b>Agile Planning Poker</b> no estado do <b>Wearable Planning Poker</b>.</string>
+    <string name="description_text_2">Para compartilhar o estado entre o <b>Agile Planning Poker</b> e o dispositivo wearable você deve iniciar o app <b>Wear Planning Poker</b> em seu wearable.</string>
+    <string name="description_text_3">Use o menu \"Enviar estado para o handheld\" para aplicar o estado do <b>Wear Planning Poker</b> no estado do <b>Agile Planning Poker</b>.</string>
+    <string name="description_text_4">E use o menu \"Pegar estado do handheld\" para aplicar o estado do <b>Agile Planning Poker</b> no estado do <b>Wear Planning Poker</b>.</string>
+
+    <string name="no_devices_found">Nenhum dispositivo encontrado.</string>
 </resources>

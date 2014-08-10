@@ -3,8 +3,6 @@ package br.com.planning.poker.wear.app.utils;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.wearable.Wearable;
 
-import br.com.planning.poker.wear.app.service.SynchronizationService;
-
 /**
  * Created by wakim on 09/08/14.
  */

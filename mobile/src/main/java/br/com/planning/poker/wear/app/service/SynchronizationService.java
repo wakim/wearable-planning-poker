@@ -1,25 +1,18 @@
 package br.com.planning.poker.wear.app.service;
 
 import android.app.ActivityManager;
-import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.data.FreezableUtils;
-import com.google.android.gms.wearable.DataEvent;
-import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
@@ -27,10 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import br.com.planning.poker.wear.app.application.Application;
 import br.com.planning.poker.wear.app.utils.MulticastPendingResponse;
@@ -57,6 +47,10 @@ public class SynchronizationService extends WearableListenerService implements G
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		int flag = super.onStartCommand(intent, flags, startId);
 
+		if(intent == null) {
+			return flag;
+		}
+
 		String method = intent.hasExtra(Params.METHOD) ? intent.getStringExtra(Params.METHOD) : null;
 
 		// Response from AGILE PLANNING POKER
@@ -66,7 +60,7 @@ public class SynchronizationService extends WearableListenerService implements G
 		}
 
 		if(START_WEARABLE.equals(method)) {
-			sendResponse(new MulticastPendingResponse(method));
+			sendResponse(new MulticastPendingResponse(this, method));
 		} else {
 			sendResponseToNode(intent.getExtras());
 		}
@@ -85,6 +79,16 @@ public class SynchronizationService extends WearableListenerService implements G
 	}
 
 	@Override
+	public void onDestroy() {
+
+		if(mGoogleApiClient != null) {
+			mGoogleApiClient.disconnect();
+		}
+
+		super.onDestroy();
+	}
+
+	@Override
 	public void onConnected(Bundle bundle) {
 		sendPendingResponses();
 	}
@@ -95,7 +99,7 @@ public class SynchronizationService extends WearableListenerService implements G
 	void sendResponseToNode(Bundle extras) {
 		String method = extras.getString(Params.METHOD);
 		String nodeId = extras.getString(Params.CUSTOM_PARAM);
-		byte[] data = null;
+		byte[] data;
 
 		if(! SET_STATE_RESPONSE.equals(method) && ! GET_STATE_RESPONSE.equals(method)) {
 			return;

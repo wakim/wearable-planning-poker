@@ -6,7 +6,6 @@ import android.support.wearable.view.WearableListView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import br.com.planning.poker.wear.R;
 import br.com.planning.poker.wear.app.adapter.SettingsAdapter;
