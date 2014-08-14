@@ -38,6 +38,7 @@ public class SynchronizationService extends WearableListenerService implements G
 			APP_NOT_FOUND = "/app-not-found", APP_STARTED = "/app-started", START_WEARABLE = "/start-wearable";
 
 	public static final String AGILE_PLANNING_POKER_PACKAGE = "br.com.planning.poker";
+	public static final String WEAR_PLANNING_POKER_PACKAGE = "br.com.planning.poker.wear";
 
 	GoogleApiClient mGoogleApiClient;
 
@@ -164,6 +165,7 @@ public class SynchronizationService extends WearableListenerService implements G
 
 		if(! startAgilePlanningPokerActivity(bundle, messageEvent.getSourceNodeId())) {
 			doAppNotFoundResponse(messageEvent.getSourceNodeId());
+			startActivity(WEAR_PLANNING_POKER_PACKAGE, null);
 		}
 	}
 
@@ -241,9 +243,6 @@ public class SynchronizationService extends WearableListenerService implements G
 
 	boolean startAgilePlanningPokerActivity(Bundle data, String nodeId) {
 
-		final PackageManager pm = getPackageManager();
-		Intent i = pm.getLaunchIntentForPackage(AGILE_PLANNING_POKER_PACKAGE);
-
 		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 
 		List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(Integer.MAX_VALUE);
@@ -251,6 +250,7 @@ public class SynchronizationService extends WearableListenerService implements G
 		// App was started with the Intent
 		boolean appStarted = true;
 
+		// Search if Agile Planning Poker is already running
 		for(ActivityManager.RunningTaskInfo runningTaskInfo : tasks) {
 			if(AGILE_PLANNING_POKER_PACKAGE.equals(runningTaskInfo.baseActivity.getPackageName())) {
 				appStarted = false;
@@ -262,9 +262,18 @@ public class SynchronizationService extends WearableListenerService implements G
 			doAppStartedResponse(nodeId);
 		}
 
+		return startActivity(AGILE_PLANNING_POKER_PACKAGE, data);
+	}
+
+	boolean startActivity(String pakage, Bundle data) {
+		final PackageManager pm = getPackageManager();
+		Intent i = pm.getLaunchIntentForPackage(pakage);
+
 		if(i != null) {
 
-			i.putExtras(data);
+			if(data != null) {
+				i.putExtras(data);
+			}
 
 			startActivity(i.setAction(Intent.ACTION_MAIN)
 							.addCategory(Intent.CATEGORY_LAUNCHER)
@@ -274,7 +283,7 @@ public class SynchronizationService extends WearableListenerService implements G
 			return true;
 		} else {
 			Intent mainIntent = new Intent(Intent.ACTION_MAIN, null)
-				.addCategory(Intent.CATEGORY_LAUNCHER);
+					.addCategory(Intent.CATEGORY_LAUNCHER);
 
 			List<ResolveInfo> appList = pm.queryIntentActivities(mainIntent, 0);
 
@@ -298,7 +307,9 @@ public class SynchronizationService extends WearableListenerService implements G
 			.setComponent(name)
 			.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
-		i.putExtras(data);
+		if(data != null) {
+			i.putExtras(data);
+		}
 
 		startActivity(i);
 	}

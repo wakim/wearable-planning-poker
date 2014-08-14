@@ -12,4 +12,5 @@
     <string name="app_started">Aberto no handheld</string>
     <string name="dismiss_overlay_intro">Deseja sair?</string>
     <string name="no_devices_found">Nenhum dispositivo</string>
+    <string name="connection_error">Erro de Conexão</string>
 </resources>

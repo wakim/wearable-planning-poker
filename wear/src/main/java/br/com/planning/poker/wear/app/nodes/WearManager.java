@@ -81,7 +81,9 @@ public class WearManager implements NodeApi.NodeListener, MessageApi.MessageList
 				.setResultCallback(new ResultCallback<MessageApi.SendMessageResult>() {
 					@Override
 					public void onResult(MessageApi.SendMessageResult sendMessageResult) {
-						notifyError(path);
+						if (! sendMessageResult.getStatus().isSuccess()) {
+							notifyError(path);
+						}
 					}
 				});
 		}

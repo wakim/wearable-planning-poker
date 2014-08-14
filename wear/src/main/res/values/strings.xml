@@ -12,4 +12,5 @@
     <string name="app_started">Opened on handheld</string>
     <string name="dismiss_overlay_intro">Want to quit?</string>
     <string name="no_devices_found">No devices</string>
+    <string name="connection_error">Connection Error</string>
 </resources>

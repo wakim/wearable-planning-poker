@@ -206,7 +206,7 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onConnectionFailed(ConnectionResult connectionResult) {
-		// TODO
+		InformationAnimationHelper.showAnimation(MainActivity.this, R.string.connection_error, InformationAnimationHelper.InformationType.FAIULRE);
 	}
 
 	@Override
@@ -226,7 +226,7 @@ public class MainActivity extends Activity
 
 	@Override
 	public void onMessageSendError(String path) {
-		// TODO
+		InformationAnimationHelper.showAnimation(MainActivity.this, R.string.connection_error, InformationAnimationHelper.InformationType.FAIULRE);
 	}
 
 	void applyState(JSONObject json) throws JSONException {
