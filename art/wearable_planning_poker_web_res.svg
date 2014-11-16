@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="wearable_planning_poker_web_res.svg"
+   inkscape:export-filename="/home/wakim/work/wearable-planning-poker/mobile/src/main/res/drawable-mdpi/ic_launcher.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <inkscape:perspective
+       id="perspective3594"
+       inkscape:persp3d-origin="290.55118 : 121.65354 : 1"
+       inkscape:vp_z="581.10236 : 182.48032 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 182.48032 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <filter
+       inkscape:collect="always"
+       id="filter3968">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="8.5407376"
+         id="feGaussianBlur3970" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.50000001"
+     inkscape:cx="-80.420419"
+     inkscape:cy="406.35321"
+     inkscape:document-units="px"
+     inkscape:current-layer="g3059"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1056"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-540.36218)"
+     id="g3147"
+     inkscape:groupmode="layer"
+     inkscape:label="Shadow Layer"
+     style="display:none" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-540.36218)"
+     style="display:inline">
+    <g
+       id="g3059"
+       inkscape:export-filename="/home/wakim/Pictures/Planning_Poker/planning_poker_web_res.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         id="g2992"
+         transform="matrix(1.0039526,0,0,1.0039526,-1.0118656,-3.1477191)">
+        <rect
+           style="fill:#0099cc;fill-opacity:1;stroke:#e4e4e4;stroke-width:10.40023613;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+           id="rect4110"
+           width="389.59976"
+           height="495.59976"
+           x="61.200119"
+           y="548.56232"
+           rx="28.530901"
+           ry="25.420874" />
+        <path
+           id="path3166-9"
+           d="m 392.65179,796.36214 c 0,-42.70363 -20.49772,-81.99107 -51.24442,-107.61329 L 324.32591,591.38447 H 187.67408 l -17.08145,97.36438 c -30.74667,25.62222 -51.24442,64.90962 -51.24442,107.61329 0,42.70375 20.49775,81.99111 51.24442,107.61328 l 17.08145,97.36448 h 136.65183 l 17.08146,-97.36448 c 30.74667,-25.62217 51.24442,-64.90953 51.24442,-107.61328 z m -239.14065,0 c 0,-56.36885 46.11999,-102.48884 102.48888,-102.48884 56.36885,0 102.48888,46.11999 102.48888,102.48884 0,56.36889 -46.11998,102.48887 -102.48888,102.48887 -56.36889,0 -102.48884,-46.11998 -102.48884,-102.48887 z"
+           inkscape:connector-curvature="0"
+           style="opacity:0.75;fill:#000000;fill-opacity:1;display:inline;filter:url(#filter3968)" />
+        <path
+           id="path3166"
+           d="m 392.65179,796.36214 c 0,-42.70363 -20.49772,-81.99107 -51.24443,-107.61329 L 324.32591,591.38447 H 187.67408 l -17.08145,97.36438 c -30.74667,25.62222 -51.24443,64.90962 -51.24443,107.61329 0,42.70375 20.49776,81.99111 51.24443,107.61328 l 17.08145,97.36448 h 136.65183 l 17.08145,-97.36448 c 30.74667,-25.62217 51.24443,-64.90953 51.24443,-107.61328 z m -239.14065,0 c 0,-56.36885 46.11999,-102.48884 102.48888,-102.48884 56.36884,0 102.48887,46.11999 102.48887,102.48884 0,56.36889 -46.11998,102.48887 -102.48887,102.48887 -56.36889,0 -102.48884,-46.11998 -102.48884,-102.48887 z"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;fill-opacity:1" />
+      </g>
+    </g>
+  </g>
+</svg>
